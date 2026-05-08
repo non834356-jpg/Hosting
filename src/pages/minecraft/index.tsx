@@ -6,10 +6,10 @@ import { Cpu, HardDrive, MemoryStick, Shield, ChevronDown } from 'lucide-react';
 import minecraftLogo from '@/assets/minecraft.png';
 
 // --- Komponen SVG Bendera ---
-const USFlag = (props: React.SVGProps<SVGSVGElement>) => (
+const IndiaFlag = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 48" {...props}><path fill="#fff" d="M0 0h72v48H0z"/><path fill="#b22234" d="M0 0h72v4H0zm0 8h72v4H0zm0 16h72v4H0zm0 24h72v4H0zm0 32h72v4H0zm0 40h72v4H0z"/><path fill="#3c3b6e" d="M0 0h36v28H0z"/><path fill="#fff" d="m6 4 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L6 11.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L18 11.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L30 11.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zM3 10l1.236 3.804h4.008L5.004 16.15l1.236 3.804L3 17.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L15 17.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L27 17.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zM6 16l1.236 3.804h4.008l-3.242 2.352 1.236 3.804L6 23.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L18 23.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L30 23.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008z"/></svg>
 );
-const NetherlandsFlag = (props: React.SVGProps<SVGSVGElement>) => (
+const IndiaFlag = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6" {...props}><path fill="#21468B" d="M0 0h9v6H0z"/><path fill="#fff" d="M0 0h9v4H0z"/><path fill="#AE1C28" d="M0 0h9v2H0z"/></svg>
 );
 
