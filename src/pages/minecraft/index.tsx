@@ -40,7 +40,7 @@ const gamePlans = [
 
 const MinecraftPricing = () => {
     const [planType, setPlanType] = useState('Ampere');
-    const [location, setLocation] = useState('USA');
+    const [location, setLocation] = useState('India');
     // PERUBAHAN: State untuk mata uang
     const [selectedCurrency, setSelectedCurrency] = useState('INR');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -93,10 +93,10 @@ const MinecraftPricing = () => {
                     <div>
                         <h2 className="text-sm font-semibold text-gray-400 mb-3">2. Location</h2>
                         <div className="flex items-center bg-gray-800/70 backdrop-blur-sm rounded-lg p-2 gap-2 max-w-xs">
-                            <button onClick={() => setLocation('USA')} className={`w-full text-center px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2 ${location === 'USA' ? 'bg-green-600' : 'hover:bg-gray-700'}`}>
+                            <button onClick={() => setLocation('India')} className={`w-full text-center px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2 ${location === 'USA' ? 'bg-green-600' : 'hover:bg-gray-700'}`}>
                                 <USFlag className="w-5 h-5 rounded-sm"/> USA
                             </button>
-                            <button onClick={() => setLocation('Netherlands')} className={`w-full text-center px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2 ${location === 'Netherlands' ? 'bg-green-600' : 'hover:bg-gray-700'}`}>
+                            <button onClick={() => setLocation('India')} className={`w-full text-center px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2 ${location === 'Netherlands' ? 'bg-green-600' : 'hover:bg-gray-700'}`}>
                                 <NetherlandsFlag className="w-5 h-5 rounded-sm"/> Netherlands
                             </button>
                         </div>
