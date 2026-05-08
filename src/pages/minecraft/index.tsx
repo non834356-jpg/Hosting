@@ -6,10 +6,10 @@ import { Cpu, HardDrive, MemoryStick, Shield, ChevronDown } from 'lucide-react';
 import minecraftLogo from '@/assets/minecraft.png';
 
 // --- Komponen SVG Bendera ---
-const IndiaFlag = (props: React.SVGProps<SVGSVGElement>) => (
+const USFlag = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 48" {...props}><path fill="#fff" d="M0 0h72v48H0z"/><path fill="#b22234" d="M0 0h72v4H0zm0 8h72v4H0zm0 16h72v4H0zm0 24h72v4H0zm0 32h72v4H0zm0 40h72v4H0z"/><path fill="#3c3b6e" d="M0 0h36v28H0z"/><path fill="#fff" d="m6 4 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L6 11.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L18 11.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L30 11.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zM3 10l1.236 3.804h4.008L5.004 16.15l1.236 3.804L3 17.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L15 17.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L27 17.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zM6 16l1.236 3.804h4.008l-3.242 2.352 1.236 3.804L6 23.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L18 23.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008zm12 0 1.236 3.804h4.008l-3.242 2.352 1.236 3.804L30 23.608l-3.242 2.352 1.236-3.804-3.242-2.352h4.008z"/></svg>
 );
-const IndiaFlag = (props: React.SVGProps<SVGSVGElement>) => (
+const NetherlandsFlag = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6" {...props}><path fill="#21468B" d="M0 0h9v6H0z"/><path fill="#fff" d="M0 0h9v4H0z"/><path fill="#AE1C28" d="M0 0h9v2H0z"/></svg>
 );
 
@@ -23,24 +23,24 @@ const currencies = {
 // PERUBAHAN: Menambahkan harga dalam USD untuk kalkulasi
 const gamePlans = [
     // USA - Ampere
-    { id: 1, name: 'GRASS PLAN', location: 'India', planType: 'Ampere', ram: 2, cpu: 100, ssd: 16, priceUSD: 13.99 },
-    { id: 2, name: 'PLANK PLAN', location: 'India', planType: 'Ampere', ram: 4, cpu: 150, ssd: 16, priceUSD: 27.99 },
-    { id: 3, name: 'STONE PLAN', location: 'India', planType: 'Ampere', ram: 6, cpu: 200, ssd: 24, priceUSD: 41.99 },
+    { id: 1, name: 'GRASS PLAN', location: 'USA', planType: 'Ampere', ram: 2, cpu: 100, ssd: 16, priceUSD: 13.99 },
+    { id: 2, name: 'PLANK PLAN', location: 'USA', planType: 'Ampere', ram: 4, cpu: 150, ssd: 16, priceUSD: 27.99 },
+    { id: 3, name: 'STONE PLAN', location: 'USA', planType: 'Ampere', ram: 6, cpu: 200, ssd: 24, priceUSD: 41.99 },
     // USA - Intel
-    { id: 4, name: 'IRON PLAN', location: 'India', planType: 'Intel', ram: 8, cpu: 250, ssd: 32, priceUSD: 55.99 },
-    { id: 5, name: 'GOLD PLAN', location: 'India', planType: 'Intel', ram: 10, cpu: 300, ssd: 48, priceUSD: 66.99 },
-    { id: 6, name: 'DIAMOND PLAN', location: 'India', planType: 'Intel', ram: 12, cpu: 350, ssd: 48, priceUSD: 88.99 },
+    { id: 4, name: 'IRON PLAN', location: 'USA', planType: 'Intel', ram: 8, cpu: 250, ssd: 32, priceUSD: 55.99 },
+    { id: 5, name: 'GOLD PLAN', location: 'USA', planType: 'Intel', ram: 10, cpu: 300, ssd: 48, priceUSD: 66.99 },
+    { id: 6, name: 'DIAMOND PLAN', location: 'USA', planType: 'Intel', ram: 12, cpu: 350, ssd: 48, priceUSD: 88.99 },
     // Netherlands - Ampere
-    { id: 7, name: 'WOOD PLAN', location: 'India', planType: 'Ampere', ram: 2, cpu: 100, ssd: 20, priceUSD: 14.99 },
-    { id: 8, name: 'COBBLE PLAN', location: 'India', planType: 'Ampere', ram: 4, cpu: 150, ssd: 20, priceUSD: 29.99 },
+    { id: 7, name: 'WOOD PLAN', location: 'Netherlands', planType: 'Ampere', ram: 2, cpu: 100, ssd: 20, priceUSD: 14.99 },
+    { id: 8, name: 'COBBLE PLAN', location: 'Netherlands', planType: 'Ampere', ram: 4, cpu: 150, ssd: 20, priceUSD: 29.99 },
     // Netherlands - Intel
-    { id: 9, name: 'OBSIDIAN PLAN', location: 'India', planType: 'Intel', ram: 8, cpu: 250, ssd: 40, priceUSD: 59.99 },
-    { id: 10, name: 'EMERALD PLAN', location: 'India', planType: 'Intel', ram: 12, cpu: 350, ssd: 60, priceUSD: 92.99 },
+    { id: 9, name: 'OBSIDIAN PLAN', location: 'Netherlands', planType: 'Intel', ram: 8, cpu: 250, ssd: 40, priceUSD: 59.99 },
+    { id: 10, name: 'EMERALD PLAN', location: 'Netherlands', planType: 'Intel', ram: 12, cpu: 350, ssd: 60, priceUSD: 92.99 },
 ];
 
 const MinecraftPricing = () => {
     const [planType, setPlanType] = useState('Ampere');
-    const [location, setLocation] = useState('India');
+    const [location, setLocation] = useState('USA');
     // PERUBAHAN: State untuk mata uang
     const [selectedCurrency, setSelectedCurrency] = useState('INR');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -93,10 +93,10 @@ const MinecraftPricing = () => {
                     <div>
                         <h2 className="text-sm font-semibold text-gray-400 mb-3">2. Location</h2>
                         <div className="flex items-center bg-gray-800/70 backdrop-blur-sm rounded-lg p-2 gap-2 max-w-xs">
-                            <button onClick={() => setLocation('India')} className={`w-full text-center px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2 ${location === 'USA' ? 'bg-green-600' : 'hover:bg-gray-700'}`}>
+                            <button onClick={() => setLocation('USA')} className={`w-full text-center px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2 ${location === 'USA' ? 'bg-green-600' : 'hover:bg-gray-700'}`}>
                                 <USFlag className="w-5 h-5 rounded-sm"/> USA
                             </button>
-                            <button onClick={() => setLocation('India')} className={`w-full text-center px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2 ${location === 'Netherlands' ? 'bg-green-600' : 'hover:bg-gray-700'}`}>
+                            <button onClick={() => setLocation('Netherlands')} className={`w-full text-center px-4 py-2 rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2 ${location === 'Netherlands' ? 'bg-green-600' : 'hover:bg-gray-700'}`}>
                                 <NetherlandsFlag className="w-5 h-5 rounded-sm"/> Netherlands
                             </button>
                         </div>
