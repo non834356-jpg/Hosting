@@ -9,11 +9,11 @@ type Status = 'Operational' | 'Degraded Performance' | 'Partial Outage' | 'Major
 const servicesStatus: { name: string; description: string; status: Status }[] = [
     { name: 'Website & Client Portal', description: 'Access to the main website and client panel.', status: 'Operational' },
     { name: 'Game Control Panel', description: 'Management panel for game servers.', status: 'Operational' },
-    { name: 'Service API', description: 'API endpoints for automation and services.', status: 'Degraded Performance' },
+    { name: 'Service API', description: 'API endpoints for automation and services.', status: 'Operational' },
     { name: 'Server Node - USA', description: 'Server infrastructure in the United States location.', status: 'Operational' },
-    { name: 'Server Node - Netherlands', description: 'Server infrastructure in the Netherlands location.', status: 'Under Maintenance' },
+    { name: 'Server Node - Netherlands', description: 'Server infrastructure in the Netherlands location.', status: 'Operational' },
     { name: 'Database & Storage', description: 'Main database systems and data storage.', status: 'Operational' },
-    { name: 'Support Services', description: 'Ticketing system and live chat.', status: 'Partial Outage' },
+    { name: 'Support Services', description: 'Ticketing system and live chat.', status: 'Operational' },
 ];
 
 // Incident history data (Placeholder)
