@@ -8,13 +8,13 @@ const serverLocations = [
   {
     country: 'India',
     specs: 'AMD EPYC™ 9634 / Ampere Altra',
-    flag: USFlag,
+    flag: IndiaFlag,
     position: { top: '35%', left: '18%' },
   },
   {
     country: 'India',
     specs: 'AMD Ryzen™ 9 5900X / Intel® Xeon®',
-    flag: NetherlandsFlag,
+    flag: IndiaFlag,
     position: { top: '25%', left: '49%' },
   },
 ];
