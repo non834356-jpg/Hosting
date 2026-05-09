@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, HardDrive, MemoryStick, ChevronLeft, ChevronRight, ChevronDown, Shield, Headset, Zap } from 'lucide-react';
+import { Cpu, HardDrive, MemoryStick, ChevronDown, Shield, Headset, Zap } from 'lucide-react';
 
-// --- Placeholder Imports for OS Logos ---
+// --- OS Logo Placeholders ---
+// Note: Ensure these assets exist in your project or update the paths
 import ubuntuLogo from '@/assets/ubuntu.png';
 import windowsLogo from '@/assets/windows.png';
 import fedoraLogo from '@/assets/fedora.png';
@@ -15,7 +16,6 @@ const currencies = {
     EUR: { symbol: '€', name: 'Euro', rate: 0.011 },
 };
 
-// Updated Plans based on TaitanHosting Specs
 const vpsPlans = [
     { id: 1, name: 'Emerald Plan', cpuType: 'Intel Xeon E5', cores: 4, ram: 16, ssd: 80, priceINR: 600 },
     { id: 2, name: 'Netherite Plan', cpuType: 'Intel Xeon E5', cores: 6, ram: 24, ssd: 100, priceINR: 700 },
@@ -37,19 +37,16 @@ const VpsPricing = () => {
         <div className="min-h-screen text-white bg-slate-950" style={{ backgroundImage: `radial-gradient(circle at 50% 50%, rgba(30, 58, 138, 0.2) 0%, rgba(2, 6, 23, 1) 100%)`, backgroundAttachment: 'fixed' }}>
             <section className="container mx-auto px-4 py-20">
                 
-                {/* Branding Header */}
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
                     <h2 className="text-blue-500 font-bold tracking-widest uppercase mb-2">TaitanHosting Premium</h2>
                     <h1 className="text-5xl md:text-6xl font-extrabold mb-4">Powerful <span className="text-blue-400">VPS</span> Solutions</h1>
                     <p className="text-gray-400 max-w-2xl mx-auto">High-performance Intel Xeon E5 servers optimized for Minecraft and heavy web hosting workloads.</p>
                     
-                    {/* Special Offer Badge */}
                     <div className="mt-6 inline-flex items-center gap-2 bg-blue-600/20 border border-blue-500/50 px-4 py-2 rounded-full text-blue-300 text-sm font-semibold">
                         <Zap size={16} /> First Purchase: 20% OFF!
                     </div>
                 </motion.div>
 
-                {/* Currency Selector */}
                 <div className="flex justify-end max-w-5xl mx-auto mb-6">
                     <div className="relative">
                         <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="bg-gray-900 border border-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-all">
@@ -67,7 +64,6 @@ const VpsPricing = () => {
                     </div>
                 </div>
 
-                {/* Plans Grid */}
                 <div className="max-w-5xl mx-auto grid grid-cols-1 gap-6">
                     {vpsPlans.map((plan, index) => (
                         <motion.div
@@ -112,10 +108,9 @@ const VpsPricing = () => {
                     ))}
                 </div>
 
-                {/* Features Section */}
                 <div className="max-w-5xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     <div className="p-6 bg-gray-900/30 rounded-xl border border-gray-800">
                         <Shield className="mx-auto mb-4 text-blue-400" size={32} />
                         <h4 className="font-bold mb-2">DDoS Protection</h4>
-                        <p className
-                                      
+                        <p className="text-
+                                        
