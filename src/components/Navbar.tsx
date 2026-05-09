@@ -1,14 +1,14 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, Bot, Server, Globe, Info, HelpingHand, FileText, Shield, BarChart, Music } from 'lucide-react';
+import { Menu, X, ChevronDown, Bot, Server, Globe, Info, HelpingHand, FileText, Shield, BarChart, Music, Monitor } from 'lucide-react';
 
 // --- Data untuk dropdown menu dengan link yang benar ---
 const serviceItems = [
   { icon: Bot, name: 'Discord Bot', href: '/discord' },
   { icon: Server, name: 'Minecraft Server', href: '/minecraft' },
   { icon: Globe, name: 'VPS', href: '/vps' },
-  { icon: Music, name: 'RDP server', href: '/rdp' }, // Belum dibuat, biarkan '#'
+  { icon: Monitor, name: 'RDP server', href: '/rdp' }, // Belum dibuat, biarkan '#'
 ];
 
 const moreItems = [
