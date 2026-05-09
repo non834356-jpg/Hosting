@@ -16,6 +16,7 @@ import NotFound from './components/NotFound';
 
 // Import semua halaman baru
 import DiscordPricing from './pages/discord';
+import RdpPricing from './pages/rdp';
 import MinecraftPricing from './pages/minecraft';
 import VpsPricing from './pages/vps';
 import AboutUs from './pages/aboutus';
