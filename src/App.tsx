@@ -63,6 +63,7 @@ function App() {
             <Route path="/discord" element={<DiscordPricing />} />
             <Route path="/minecraft" element={<MinecraftPricing />} />
             <Route path="/vps" element={<VpsPricing />} />
+            <Route path="/rdp" element={<RdpPricing />} />
 
             {/* Rute Halaman More */}
             <Route path="/about" element={<AboutUs />} />
