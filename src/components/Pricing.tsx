@@ -58,38 +58,52 @@ const Pricing = () => {
   const currentCurrency = currencies[selectedCurrency as keyof typeof currencies];
 
   return (
-    <section id="pricing" className="py-24 px-4 bg-[#0a0a0a]">
+    // Background exactly like your code (No manual colors added)
+    <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-          <div>
-            <h2 className="text-4xl font-bold text-white">Simple Pricing <span className="text-blue-400">Plans</span></h2>
-            <p className="text-gray-400 mt-2">Choose the perfect plan for your needs.</p>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12"
+        >
+          <div className="text-center md:text-left">
+            <h2 className="text-4xl sm:text-5xl font-bold text-white">Simple Pricing <span className="text-blue-400">Plans</span></h2>
+            <p className="text-lg text-gray-400 mt-2 max-w-2xl">Choose the perfect plan for your needs. All plans include our core features with no hidden fees.</p>
           </div>
           
-          <div className="relative">
-            <button 
+          <div className="relative inline-block text-left">
+            <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 border border-gray-700"
+              className="bg-gray-800 border border-gray-700 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center"
             >
-              {currentCurrency.symbol} {selectedCurrency} <ChevronDown size={18} />
+              <span className="mr-2">{currentCurrency.symbol} {selectedCurrency} - {currentCurrency.name}</span>
+              <ChevronDown size={20} />
             </button>
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
-                {Object.keys(currencies).map((code) => (
-                  <button 
-                    key={code}
-                    className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700 transition-colors"
-                    onClick={() => { setSelectedCurrency(code); setIsDropdownOpen(false); }}
-                  >
-                    {code}
-                  </button>
-                ))}
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-10"
+              >
+                <div className="py-1">
+                  {Object.entries(currencies).map(([code, { symbol, name }]) => (
+                    <button 
+                      key={code} 
+                      onClick={() => { setSelectedCurrency(code); setIsDropdownOpen(false); }}
+                      className="w-full text-left text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700 transition-colors"
+                    >
+                      {symbol} {code} - {name}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
             )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+        {/* Updated Grid for 4 items */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
           {pricingPlans.map((plan, index) => (
             <motion.div
               key={plan.title}
@@ -97,46 +111,45 @@ const Pricing = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden group hover:border-blue-500 transition-all duration-300 flex flex-col"
+              className="relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden group hover:border-blue-500 transition-all duration-300 flex flex-col h-full"
             >
-              {/* Popular Badge Style */}
               {plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] uppercase font-bold px-4 py-1 rounded-b-lg z-20">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-full z-20">
                   Most Popular
                 </div>
               )}
               
-              {/* Image Header Background Style - Exactly like your code */}
+              {/* Image Header with Blue Icon - Your style preserved */}
               <div 
                 className="h-40 bg-cover bg-center relative" 
                 style={{ backgroundImage: `url(${plan.image})` }}
               >
-                <div className="h-full w-full bg-black/60 flex items-end p-6">
+                <div className="h-full w-full bg-black/50 flex items-end p-6">
                     <div className="flex items-center gap-2">
                         <plan.icon className="text-blue-400" size={24} />
-                        <h3 className="text-xl font-bold text-white">{plan.title}</h3>
+                        <h3 className="text-2xl font-bold text-white">{plan.title}</h3>
                     </div>
                 </div>
               </div>
 
               <div className="p-6 flex flex-col flex-grow">
-                <p className="text-gray-400 text-sm">Starting at</p>
+                <p className="text-gray-400">Starting at</p>
                 <p className="text-4xl font-bold text-white my-2">
                     {currentCurrency.symbol}{(plan.priceINR * currentCurrency.rate).toFixed(2)}
                     <span className="text-sm font-medium text-gray-400">/mo</span>
                 </p>
                 
-                <ul className="space-y-3 my-6 flex-grow">
+                <ul className="space-y-3 my-8 flex-grow">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center text-sm text-gray-300">
-                        <Check className="w-4 h-4 text-blue-500 mr-3 flex-shrink-0" />
+                    <li key={feature} className="flex items-center text-gray-300">
+                        <Check className="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" />
                         <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 <Link to={plan.link}>
-                    <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all duration-300 shadow-lg active:scale-95">
+                    <button className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 active:scale-95">
                         {plan.buttonText}
                     </button>
                 </Link>
@@ -150,3 +163,4 @@ const Pricing = () => {
 };
 
 export default Pricing;
+              
