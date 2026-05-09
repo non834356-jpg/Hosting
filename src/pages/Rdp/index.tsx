@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, HardDrive, MemoryStick, ChevronDown, Shield, Headset, Zap } from 'lucide-react';
 
-// --- OS Logo Imports ---
+// --- OS Logo Imports (Paths aapke assets ke hisaab se sahi rakhein) ---
 import ubuntuLogo from '@/assets/ubuntu.png';
 import windowsLogo from '@/assets/windows.png';
 import fedoraLogo from '@/assets/fedora.png';
@@ -33,41 +33,36 @@ const RdpPricing = () => {
     const currentCurrency = currencies[selectedCurrency as keyof typeof currencies];
 
     return (
-        <div 
-            className="min-h-screen text-white bg-slate-950" 
-            style={{ 
-                backgroundImage: `radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.12) 0%, rgba(2, 6, 23, 1) 80%)`,
-                backgroundAttachment: 'fixed'
-            }}
-        >
+        /* BACKGROUND SETTINGS: Exactly same as your Minecraft code */
+        <div className="min-h-screen text-white bg-[#0a0a0a]" style={{ backgroundImage: `url('/background.png')`, backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
             <section className="container mx-auto px-4 py-20 pt-32">
                 
-                {/* Header Section */}
-                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-                    <h2 className="text-blue-500 font-bold tracking-[0.4em] uppercase text-[10px] mb-4">TaitanHosting Premium</h2>
-                    <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter italic">
-                        PREMIUM <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">RDP</span> PLANS
+                {/* Header Section - Text responsive kiya hai taaki RDP pura dikhe */}
+                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+                    <h2 className="text-blue-500 font-bold tracking-[0.3em] uppercase text-[10px] mb-2">TaitanHosting Premium</h2>
+                    <h1 className="text-3xl md:text-6xl font-black mb-4 tracking-tighter">
+                        PREMIUM <span className="text-blue-400">RDP</span> PLANS
                     </h1>
-                    <p className="text-gray-400 max-w-xl mx-auto text-sm md:text-base leading-relaxed">
-                        High-performance Remote Desktop solutions. Low latency, Intel Xeon power, and full administrator access.
+                    <p className="text-gray-400 max-w-xl mx-auto text-sm">
+                        High-performance Remote Desktop solutions. Low latency and full administrator access.
                     </p>
                     
-                    <div className="mt-8 inline-flex items-center gap-3 bg-blue-500/10 border border-blue-500/20 px-6 py-2.5 rounded-full text-blue-400 text-xs font-black shadow-2xl">
+                    <div className="mt-6 inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 px-4 py-2 rounded-full text-blue-400 text-xs font-bold">
                         <Zap size={14} fill="currentColor" /> FIRST PURCHASE = 20% OFF!
                     </div>
                 </motion.div>
 
                 {/* Currency Selector */}
-                <div className="flex justify-end max-w-5xl mx-auto mb-10">
+                <div className="flex justify-end max-w-5xl mx-auto mb-8">
                     <div className="relative">
-                        <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="bg-white/5 backdrop-blur-xl border border-white/10 px-5 py-2.5 rounded-xl flex items-center gap-3 hover:bg-white/10 transition-all shadow-2xl">
-                            <span className="font-bold text-sm">{currentCurrency.symbol} {selectedCurrency}</span>
-                            <ChevronDown size={16} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="bg-gray-900/60 backdrop-blur-md border border-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-all shadow-xl">
+                            <span className="font-bold text-xs">{currentCurrency.symbol} {selectedCurrency}</span>
+                            <ChevronDown size={14} />
                         </button>
                         {isDropdownOpen && (
-                            <div className="absolute right-0 mt-3 w-40 bg-slate-900 border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden">
+                            <div className="absolute right-0 mt-2 w-36 bg-gray-900 border border-gray-700 rounded-lg shadow-2xl z-50 overflow-hidden">
                                 {Object.entries(currencies).map(([code, { symbol }]) => (
-                                    <button key={code} onClick={() => { setSelectedCurrency(code); setIsDropdownOpen(false); }} className="w-full text-left px-5 py-3 hover:bg-blue-600 text-xs font-bold transition-colors">
+                                    <button key={code} onClick={() => { setSelectedCurrency(code); setIsDropdownOpen(false); }} className="w-full text-left px-4 py-2 hover:bg-blue-600 text-[10px] font-bold transition-colors">
                                         {symbol} {code}
                                     </button>
                                 ))}
@@ -77,46 +72,46 @@ const RdpPricing = () => {
                 </div>
 
                 {/* Plans Grid */}
-                <div className="max-w-5xl mx-auto grid grid-cols-1 gap-6">
+                <div className="max-w-5xl mx-auto grid grid-cols-1 gap-5">
                     {rdpPlans.map((plan, index) => (
                         <motion.div
                             key={plan.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="group relative bg-white/[0.02] backdrop-blur-3xl border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-8 hover:bg-white/[0.04] hover:border-blue-500/30 transition-all"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                            className="bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-xl p-5 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 hover:border-blue-500/40 transition-all shadow-lg"
                         >
                             <div className="flex-1 text-center md:text-left">
-                                <h3 className="text-2xl font-black text-white group-hover:text-blue-400 transition-colors uppercase italic">{plan.name}</h3>
-                                <p className="text-gray-500 text-[10px] font-bold mt-1 tracking-widest uppercase">{plan.cpuType} CPU</p>
+                                <h3 className="text-xl font-black text-white uppercase italic tracking-tight">{plan.name}</h3>
+                                <p className="text-gray-500 text-[9px] font-bold uppercase tracking-widest">{plan.cpuType} CPU</p>
                             </div>
 
-                            <div className="flex flex-wrap justify-center gap-8 md:gap-12 flex-[2]">
-                                <div className="text-center group-hover:scale-105 transition-transform">
-                                    <Cpu size={22} className="text-blue-400 mx-auto mb-2 opacity-80"/>
-                                    <p className="text-[9px] text-gray-500 uppercase font-black">Cores</p>
-                                    <p className="font-bold text-base">{plan.cores} vCores</p>
+                            <div className="flex flex-wrap justify-center gap-6 md:gap-12 flex-[2]">
+                                <div className="text-center">
+                                    <Cpu size={20} className="text-blue-400 mx-auto mb-1 opacity-80"/>
+                                    <p className="text-[8px] text-gray-500 uppercase font-black">Cores</p>
+                                    <p className="font-bold text-sm">{plan.cores} vCores</p>
                                 </div>
-                                <div className="text-center group-hover:scale-105 transition-transform">
-                                    <MemoryStick size={22} className="text-purple-400 mx-auto mb-2 opacity-80"/>
-                                    <p className="text-[9px] text-gray-500 uppercase font-black">RAM</p>
-                                    <p className="font-bold text-base">{plan.ram}GB</p>
+                                <div className="text-center">
+                                    <MemoryStick size={20} className="text-purple-400 mx-auto mb-1 opacity-80"/>
+                                    <p className="text-[8px] text-gray-500 uppercase font-black">RAM</p>
+                                    <p className="font-bold text-sm">{plan.ram}GB</p>
                                 </div>
-                                <div className="text-center group-hover:scale-105 transition-transform">
-                                    <HardDrive size={22} className="text-emerald-400 mx-auto mb-2 opacity-80"/>
-                                    <p className="text-[9px] text-gray-500 uppercase font-black">NVMe</p>
-                                    <p className="font-bold text-base">{plan.ssd}GB</p>
+                                <div className="text-center">
+                                    <HardDrive size={20} className="text-emerald-400 mx-auto mb-1 opacity-80"/>
+                                    <p className="text-[8px] text-gray-500 uppercase font-black">SSD</p>
+                                    <p className="font-bold text-sm">{plan.ssd}GB</p>
                                 </div>
                             </div>
 
-                            <div className="flex items-center gap-8 w-full md:w-auto border-t md:border-t-0 border-white/5 pt-6 md:pt-0">
+                            <div className="flex items-center gap-6 w-full md:w-auto border-t md:border-t-0 border-white/5 pt-4 md:pt-0">
                                 <div className="text-right flex-1 md:flex-none">
-                                    <p className="text-3xl font-black text-white tracking-tighter">
+                                    <p className="text-2xl font-black text-white">
                                         {currentCurrency.symbol}{(plan.priceINR * currentCurrency.rate).toLocaleString()}
                                     </p>
-                                    <p className="text-[9px] text-gray-600 uppercase font-black">/ Monthly</p>
+                                    <p className="text-[8px] text-gray-600 uppercase font-black">/ Monthly</p>
                                 </div>
-                                <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-blue-600/20 active:scale-95">
+                                <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-600/20 active:scale-95">
                                     Order
                                 </button>
                             </div>
@@ -124,29 +119,29 @@ const RdpPricing = () => {
                     ))}
                 </div>
 
-                {/* Feature Tags */}
-                <div className="max-w-5xl mx-auto mt-20 flex flex-wrap justify-center gap-10 opacity-50">
-                    <div className="flex items-center gap-2 font-black text-[10px] uppercase tracking-[0.2em]">
-                        <Shield size={18} className="text-blue-500" /> DDoS Protection
+                {/* Footer Badges */}
+                <div className="max-w-5xl mx-auto mt-16 flex flex-wrap justify-center gap-8 opacity-50">
+                    <div className="flex items-center gap-2 font-black text-[9px] uppercase tracking-widest">
+                        <Shield size={16} className="text-blue-500" /> DDoS Protected
                     </div>
-                    <div className="flex items-center gap-2 font-black text-[10px] uppercase tracking-[0.2em]">
-                        <Headset size={18} className="text-blue-500" /> 24/7 Support
+                    <div className="flex items-center gap-2 font-black text-[9px] uppercase tracking-widest">
+                        <Headset size={16} className="text-blue-500" /> 24/7 Support
                     </div>
-                    <div className="flex items-center gap-2 font-black text-[10px] uppercase tracking-[0.2em]">
-                        <Zap size={18} className="text-blue-500" /> 99.9% Uptime
+                    <div className="flex items-center gap-2 font-black text-[9px] uppercase tracking-widest">
+                        <Zap size={16} className="text-blue-500" /> 99.9% Uptime
                     </div>
                 </div>
 
-                {/* OS Selection */}
-                <div className="mt-32 text-center pb-20">
-                    <h2 className="text-[10px] font-black uppercase tracking-[0.4em] mb-12 text-gray-600">Available Systems</h2>
-                    <div className="flex justify-center flex-wrap gap-12">
+                {/* OS Grid */}
+                <div className="mt-24 text-center pb-20">
+                    <h2 className="text-[9px] font-black uppercase tracking-[0.4em] mb-10 text-gray-600">Available Systems</h2>
+                    <div className="flex justify-center flex-wrap gap-8">
                         {operatingSystems.map((os) => (
                             <div key={os.name} className="flex flex-col items-center group">
-                                <div className="p-4 bg-white/[0.02] rounded-xl border border-white/5 group-hover:border-blue-500/40 transition-all transform group-hover:-translate-y-1">
+                                <div className="p-4 bg-gray-900/40 rounded-xl border border-gray-800 group-hover:border-blue-500/40 transition-all">
                                     <img src={os.logo} alt={os.name} className="w-8 h-8 object-contain grayscale group-hover:grayscale-0 transition-all" />
                                 </div>
-                                <span className="text-[9px] font-black text-gray-600 group-hover:text-gray-400 mt-4 uppercase tracking-widest transition-colors">{os.name}</span>
+                                <span className="text-[8px] font-black text-gray-600 group-hover:text-gray-400 mt-3 uppercase tracking-widest">{os.name}</span>
                             </div>
                         ))}
                     </div>
@@ -158,4 +153,4 @@ const RdpPricing = () => {
 };
 
 export default RdpPricing;
-                              
+                        
