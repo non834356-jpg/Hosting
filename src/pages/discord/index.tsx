@@ -3,86 +3,62 @@ import { motion } from 'framer-motion';
 import { Cpu, Zap, HardDrive, Wifi, ShieldCheck, LifeBuoy, ChevronDown } from 'lucide-react';
 import nodejsImg from "@/assets/nodejs.jpg";
 
-// Data mata uang dan kurs konversi
 const currencies = {
   INR: { symbol: '₹', name: 'Indian Rupee', rate: 83.5 },
   USD: { symbol: '$', name: 'US Dollar', rate: 1 },
   EUR: { symbol: '€', name: 'Euro', rate: 0.92 },
 };
 
-// Data paket hosting dengan harga dasar dalam USD untuk konversi
+// Updated Pricing with your custom plans
 const discordPlans = [
   {
-    name: 'Lite Plan',
+    name: 'Starter Plan',
     type: 'Discord Bot',
-    priceUSD: 0.42,
-    cpu: '100% CPU',
-    ram: '512 MB',
-    storage: '2 GB',
-    storageType: 'SSD Storage',
+    priceUSD: 0.30, // ₹25.00 / 83.5
+    cpu: '50% (3.70Ghz)',
+    ram: '1 GB DDR4',
+    storage: '5 GB',
+    storageType: 'NVMe SSD (GEN-4)',
     bandwidth: 'Unlimited',
     uptime: '24/7 Uptime',
     popular: false,
   },
   {
-    name: 'Plus Plan',
+    name: 'Basic Plan',
     type: 'Discord Bot',
-    priceUSD: 0.84,
-    cpu: '100% CPU',
-    ram: '1 GB',
-    storage: '5 GB',
-    storageType: 'SSD Storage',
+    priceUSD: 0.60, // ₹50.00 / 83.5
+    cpu: '125% (3.70Ghz)',
+    ram: '3 GB DDR4',
+    storage: '10 GB',
+    storageType: 'NVMe SSD (GEN-4)',
     bandwidth: 'Unlimited',
     uptime: '24/7 Uptime',
     popular: true,
   },
   {
-    name: 'Pro Plan',
+    name: 'Professional Plan',
     type: 'Discord Bot',
-    priceUSD: 1.68,
-    cpu: '100% CPU',
-    ram: '2 GB',
+    priceUSD: 0.96, // ₹80.00 / 83.5
+    cpu: '225% (3.70Ghz)',
+    ram: '5 GB DDR4',
     storage: '15 GB',
-    storageType: 'SSD Storage',
+    storageType: 'NVMe SSD (GEN-4)',
     bandwidth: 'Unlimited',
     uptime: '24/7 Uptime',
     popular: false,
   },
   {
-    name: 'Ultra Plan',
+    name: 'Custom Plan',
     type: 'Discord Bot',
-    priceUSD: 3.35,
-    cpu: '150% CPU',
-    ram: '4 GB',
-    storage: '20 GB',
-    storageType: 'SSD Storage',
+    priceUSD: 0, // Manual contact for pricing
+    cpu: 'Custom vCore',
+    ram: 'Custom RAM',
+    storage: 'Custom',
+    storageType: 'NVMe SSD',
     bandwidth: 'Unlimited',
     uptime: '24/7 Uptime',
     popular: false,
-  },
-  {
-    name: 'Elite Plan',
-    type: 'Discord Bot',
-    priceUSD: 5.02,
-    cpu: '200% CPU',
-    ram: '6 GB',
-    storage: '30 GB',
-    storageType: 'SSD Storage',
-    bandwidth: 'Unlimited',
-    uptime: '24/7 Uptime',
-    popular: false,
-  },
-  {
-    name: 'LavaLink: V4',
-    type: 'Discord Bot',
-    priceUSD: 0.96,
-    cpu: '100% CPU',
-    ram: '2 GB',
-    storage: '5 GB',
-    storageType: 'SSD Storage',
-    bandwidth: 'Unlimited',
-    uptime: '24/7 Uptime',
-    popular: false,
+    isCustom: true,
   },
 ];
 
@@ -112,12 +88,9 @@ const DiscordBotPricing = () => {
   const currentCurrency = currencies[selectedCurrency as keyof typeof currencies];
 
   return (
-    // PERUBAHAN: Latar belakang menggunakan background.png dan ada section wrapper
     <div className="min-h-screen" style={{ backgroundImage: `url('/background.png')`, backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
-      {/* PERUBAHAN: Wrapper section dengan padding atas (pt-32) agar tidak menempel navbar */}
       <section className="container mx-auto px-4 py-20 pt-32">
         
-        {/* === Header Section & Currency Selector === */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -131,13 +104,12 @@ const DiscordBotPricing = () => {
         </motion.div>
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-12">
-            {/* Plan Type Tabs */}
             <div className="bg-gray-800/70 backdrop-blur-sm p-2 rounded-lg flex items-center gap-2">
                 <button 
                     onClick={() => setActiveTab('standard')}
                     className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'standard' ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700'}`}
                 >
-                    Plan Type
+                    Standard
                 </button>
                 <button 
                     onClick={() => setActiveTab('premium')}
@@ -146,7 +118,7 @@ const DiscordBotPricing = () => {
                     Premium Plans
                 </button>
             </div>
-            {/* Currency Dropdown */}
+
             <div className="relative inline-block text-left">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -163,18 +135,17 @@ const DiscordBotPricing = () => {
                 >
                   <div className="py-1">
                     {Object.entries(currencies).map(([code, { symbol, name }]) => (
-                      <a
+                      <button
                         key={code}
-                        href="#"
                         onClick={(e) => {
                           e.preventDefault();
                           setSelectedCurrency(code);
                           setIsDropdownOpen(false);
                         }}
-                        className="text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700"
+                        className="w-full text-left text-gray-300 block px-4 py-2 text-sm hover:bg-gray-700"
                       >
                         {symbol} {code} - {name}
-                      </a>
+                      </button>
                     ))}
                   </div>
                 </motion.div>
@@ -182,8 +153,7 @@ const DiscordBotPricing = () => {
             </div>
         </div>
 
-        {/* === Pricing Cards Grid === */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {discordPlans.map((plan, index) => (
             <motion.div
               key={index}
@@ -199,41 +169,47 @@ const DiscordBotPricing = () => {
                 </div>
               )}
               <div className="p-6 flex-grow">
-  <div className="flex items-start gap-4 mb-4">
-    <img
-      src={nodejsImg}
-      alt="Node.js Icon"
-      className="w-16 h-16 rounded-lg object-cover"
-      onError={(e) => {
-        e.currentTarget.src = "https://placehold.co/64x64/1F2937/FFFFFF?text=JS";
-      }}
-    />
-    <div>
-      <h3 className="text-xl font-bold text-white">{plan.name}</h3>
-      <p className="text-sm text-gray-400">{plan.type}</p>
-    </div>
-  </div>
-  
+                <div className="flex items-start gap-4 mb-4">
+                  <img
+                    src={nodejsImg}
+                    alt="Node.js"
+                    className="w-12 h-12 rounded-lg object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://placehold.co/64x64/1F2937/FFFFFF?text=JS";
+                    }}
+                  />
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{plan.name}</h3>
+                    <p className="text-xs text-gray-400">{plan.type}</p>
+                  </div>
+                </div>
 
-                <div className="grid grid-cols-2 gap-x-6 gap-y-4 my-6 text-sm">
-                    <div className="flex items-center gap-2 text-gray-300"><Cpu size={16} className="text-gray-500"/> <span>{plan.cpu}</span></div>
-                    <div className="flex items-center gap-2 text-gray-300"><Zap size={16} className="text-gray-500"/> <span>{plan.ram} RAM</span></div>
-                    <div className="flex items-center gap-2 text-gray-300"><HardDrive size={16} className="text-gray-500"/> <span>{plan.storage} {plan.storageType}</span></div>
-                    <div className="flex items-center gap-2 text-gray-300"><Wifi size={16} className="text-gray-500"/> <span>{plan.bandwidth}</span></div>
+                <div className="flex flex-col gap-y-4 my-6 text-sm">
+                    <div className="flex items-center gap-2 text-gray-300"><Cpu size={16} className="text-blue-400"/> <span>{plan.cpu}</span></div>
+                    <div className="flex items-center gap-2 text-gray-300"><Zap size={16} className="text-blue-400"/> <span>{plan.ram}</span></div>
+                    <div className="flex items-center gap-2 text-gray-300"><HardDrive size={16} className="text-blue-400"/> <span>{plan.storage} {plan.storageType}</span></div>
+                    <div className="flex items-center gap-2 text-gray-300"><Wifi size={16} className="text-blue-400"/> <span>{plan.bandwidth}</span></div>
                 </div>
                 
                 <div className='border-t border-gray-700 my-6'></div>
                 
                 <div className="flex items-baseline justify-center text-center">
-                  {/* PERUBAHAN: Harga dinamis sesuai mata uang yang dipilih */}
-                  <span className="text-4xl font-bold tracking-tight text-white">{currentCurrency.symbol}{(plan.priceUSD * currentCurrency.rate).toFixed(2)}</span>
-                  <span className="text-lg text-gray-400">/mo</span>
+                  {plan.isCustom ? (
+                    <span className="text-2xl font-bold text-white">Contact Us</span>
+                  ) : (
+                    <>
+                      <span className="text-3xl font-bold tracking-tight text-white">
+                        {currentCurrency.symbol}{(plan.priceUSD * currentCurrency.rate).toFixed(2)}
+                      </span>
+                      <span className="text-md text-gray-400">/mo</span>
+                    </>
+                  )}
                 </div>
               </div>
               
               <div className="p-6 pt-0 mt-auto">
                 <button className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 group-hover:shadow-lg group-hover:shadow-blue-600/30">
-                  Order Now
+                  {plan.isCustom ? 'Get Quote' : 'Order Now'}
                 </button>
               </div>
             </motion.div>
