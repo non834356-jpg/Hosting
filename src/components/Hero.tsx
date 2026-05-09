@@ -18,7 +18,7 @@ import Amazon from '../icons/Amazon';
 const animatedWords = [
   'Discord Bot',
   'Minecraft Server',
-  'Lavalink Node',
+  'RDP server',
   'VPS',
 ];
 
