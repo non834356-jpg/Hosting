@@ -4,7 +4,7 @@ import { Check, ChevronDown, MonitorDot, Server, Gamepad2, Bot } from 'lucide-re
 import { Link } from 'react-router-dom';
 
 const currencies = {
-  INR: { symbol: '₹', name: 'Indian Rupee', rate: 1 }, // Default INR rakha hai India node ke liye
+  INR: { symbol: '₹', name: 'Indian Rupee', rate: 1 },
   USD: { symbol: '$', name: 'US Dollar', rate: 0.012 },
   EUR: { symbol: '€', name: 'Euro', rate: 0.011 },
 };
@@ -42,7 +42,7 @@ const pricingPlans = [
   },
   {
     title: 'RDP Servers',
-    icon: MonitorDot, // New category
+    icon: MonitorDot,
     image: '/rdp.jpeg',
     priceINR: 500,
     features: ['Windows OS', 'Admin Access', 'High Bandwidth', 'Secure Connection', 'Instant Setup'],
@@ -58,50 +58,38 @@ const Pricing = () => {
   const currentCurrency = currencies[selectedCurrency as keyof typeof currencies];
 
   return (
-    <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0a0a0a]">
+    <section id="pricing" className="py-24 px-4 bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12"
-        >
-          <div className="text-center md:text-left">
-            <h2 className="text-4xl sm:text-5xl font-bold text-white">Simple Pricing <span className="text-blue-400">Plans</span></h2>
-            <p className="text-lg text-gray-400 mt-2 max-w-2xl">Choose the perfect plan for your needs. All plans include our core features with no hidden fees.</p>
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+          <div>
+            <h2 className="text-4xl font-bold text-white">Simple Pricing <span className="text-blue-400">Plans</span></h2>
+            <p className="text-gray-400 mt-2">Choose the perfect plan for your needs.</p>
           </div>
           
-          {/* Currency Dropdown */}
-          <div className="relative inline-block text-left">
-            <button
+          <div className="relative">
+            <button 
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="bg-gray-800/50 backdrop-blur-md border border-gray-700 text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center"
+              className="bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 border border-gray-700"
             >
-              <span className="mr-2">{currentCurrency.symbol} {selectedCurrency}</span>
-              <ChevronDown size={20} />
+              {currentCurrency.symbol} {selectedCurrency} <ChevronDown size={18} />
             </button>
             {isDropdownOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-                className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-900 border border-gray-700 z-50"
-              >
-                <div className="py-1">
-                  {Object.entries(currencies).map(([code, { symbol, name }]) => (
-                    <button key={code} onClick={() => { setSelectedCurrency(code); setIsDropdownOpen(false); }}
-                      className="w-full text-left text-gray-300 block px-4 py-2 text-sm hover:bg-gray-800 transition-colors"
-                    >
-                      {symbol} {code} - {name}
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
+              <div className="absolute right-0 mt-2 w-40 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
+                {Object.keys(currencies).map((code) => (
+                  <button 
+                    key={code}
+                    className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-700 transition-colors"
+                    onClick={() => { setSelectedCurrency(code); setIsDropdownOpen(false); }}
+                  >
+                    {code}
+                  </button>
+                ))}
+              </div>
             )}
           </div>
-        </motion.div>
+        </div>
 
-        {/* 4 Category Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
           {pricingPlans.map((plan, index) => (
             <motion.div
               key={plan.title}
@@ -109,42 +97,46 @@ const Pricing = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative bg-gray-900/40 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden group hover:border-blue-500/50 transition-all duration-300 flex flex-col h-full"
+              className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl overflow-hidden group hover:border-blue-500 transition-all duration-300 flex flex-col"
             >
+              {/* Popular Badge Style */}
               {plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] uppercase tracking-widest font-black px-4 py-1 rounded-b-lg z-20">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] uppercase font-bold px-4 py-1 rounded-b-lg z-20">
                   Most Popular
                 </div>
               )}
               
-              {/* Header Image Area */}
-              <div className="h-32 relative overflow-hidden">
-                <img src={plan.image} alt={plan.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-60" />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
-                <div className="absolute bottom-3 left-4 flex items-center gap-2">
-                    <plan.icon className="text-blue-400" size={20} />
-                    <h3 className="text-lg font-bold text-white">{plan.title}</h3>
+              {/* Image Header Background Style - Exactly like your code */}
+              <div 
+                className="h-40 bg-cover bg-center relative" 
+                style={{ backgroundImage: `url(${plan.image})` }}
+              >
+                <div className="h-full w-full bg-black/60 flex items-end p-6">
+                    <div className="flex items-center gap-2">
+                        <plan.icon className="text-blue-400" size={24} />
+                        <h3 className="text-xl font-bold text-white">{plan.title}</h3>
+                    </div>
                 </div>
               </div>
 
               <div className="p-6 flex flex-col flex-grow">
-                <p className="text-xs text-gray-500 uppercase font-semibold">Starting at</p>
-                <p className="text-3xl font-bold text-white my-1">
+                <p className="text-gray-400 text-sm">Starting at</p>
+                <p className="text-4xl font-bold text-white my-2">
                     {currentCurrency.symbol}{(plan.priceINR * currentCurrency.rate).toFixed(2)}
-                    <span className="text-xs font-medium text-gray-500"> /mo</span>
+                    <span className="text-sm font-medium text-gray-400">/mo</span>
                 </p>
                 
                 <ul className="space-y-3 my-6 flex-grow">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center text-xs text-gray-400">
-                        <Check className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
+                    <li key={feature} className="flex items-center text-sm text-gray-300">
+                        <Check className="w-4 h-4 text-blue-500 mr-3 flex-shrink-0" />
                         <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                <Link to={plan.link} className="mt-auto">
-                    <button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-all duration-300 shadow-lg shadow-blue-900/20 active:scale-95">
+                <Link to={plan.link}>
+                    <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all duration-300 shadow-lg active:scale-95">
                         {plan.buttonText}
                     </button>
                 </Link>
