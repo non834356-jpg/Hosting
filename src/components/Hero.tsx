@@ -45,7 +45,6 @@ const featureCards = [
   },
 ];
 
-// Array partner untuk marquee
 const partners = [
   { name: 'Intel', component: Intel },
   { name: 'AMD', component: Amd },
@@ -53,9 +52,7 @@ const partners = [
   { name: 'Amazon AWS', component: Amazon },
 ];
 
-// Duplikasi array untuk animasi yang seamless
 const duplicatedPartners = [...partners, ...partners];
-
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -68,9 +65,16 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // --- SCROLL FUNCTION ADDED HERE ---
+  const scrollToPricing = () => {
+    const element = document.getElementById('pricing');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
-      {/* Definisi animasi keyframes langsung di dalam komponen menggunakan JSX style tag */}
       <style jsx>{`
         .scroller-container {
           overflow: hidden;
@@ -88,10 +92,6 @@ const Hero = () => {
         }
       `}</style>
 
-      {/* MENGUBAH min-h-screen menjadi padding vertikal (py) yang lebih sesuai.
-        pt-24 (padding-top) untuk memberi ruang dari navbar.
-        pb-16 (padding-bottom) untuk memberi jarak ke section berikutnya.
-      */}
       <section className="flex flex-col items-center justify-center pt-32 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -122,27 +122,33 @@ const Hero = () => {
               <p className="mt-4 text-lg text-gray-300 max-w-lg">
                 Experience lightning-fast performance, unbeatable reliability, and 24/7 support for all your favorite games and applications.
               </p>
+              
               <div className="mt-8 flex items-center space-x-6">
+                {/* --- ONCLICK ADDED TO BUTTON --- */}
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={scrollToPricing}
                   className="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-blue-700 transition-colors"
                 >
                   <span>Get Started</span>
                   <ArrowRight size={20} />
                 </motion.button>
+                
                 <a
-                  href="#"
+                  href="#features"
                   className="text-gray-300 font-medium hover:text-white flex items-center space-x-2 transition-colors"
                 >
                   <span>Learn More</span>
                   <ExternalLink size={16} />
                 </a>
               </div>
+              
               <p className="mt-6 text-sm text-gray-500">
                 ··· Get started for free!
               </p>
             </motion.div>
+
             <motion.div 
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -170,7 +176,6 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* === Marquee Section === */}
         <div className="w-full pt-16 pb-8">
             <div className="text-center mb-8">
                 <h3 className="text-lg font-semibold text-gray-400">Powered By The Best Technology</h3>
@@ -194,3 +199,4 @@ const Hero = () => {
 };
 
 export default Hero;
+                  
