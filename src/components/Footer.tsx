@@ -52,7 +52,7 @@ const Footer = () => {
               High-performance hosting solutions for developers, gamers, and communities worldwide.
             </p>
             <div className="flex items-center space-x-4 mt-6">
-              <a href="https://discord.gg/your-invite-code" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+              <a href="https://discord.gg/WmKHNsmrWa" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <DiscordLogo className="w-6 h-6" />
               </a>
               {socialLinks.map((link, index) => {
