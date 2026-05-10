@@ -1,14 +1,14 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown, Bot, Server, Globe, Info, HelpingHand, FileText, Shield, BarChart, Music, Monitor } from 'lucide-react';
+import { Menu, X, ChevronDown, Bot, Server, Globe, Info, HelpingHand, FileText, Shield, BarChart, Monitor } from 'lucide-react';
 
 // --- Data untuk dropdown menu dengan link yang benar ---
 const serviceItems = [
   { icon: Bot, name: 'Discord Bot', href: '/discord' },
   { icon: Server, name: 'Minecraft Server', href: '/minecraft' },
   { icon: Globe, name: 'VPS', href: '/vps' },
-  { icon: Monitor, name: 'RDP server', href: '/rdp' }, // Belum dibuat, biarkan '#'
+  { icon: Monitor, name: 'RDP server', href: '/rdp' },
 ];
 
 const moreItems = [
@@ -38,7 +38,6 @@ const Navbar = () => {
     setMobileDropdown(mobileDropdown === menu ? null : menu);
   };
   
-  // Fungsi untuk menutup semua menu
   const closeAllMenus = () => {
       setIsMobileMenuOpen(false);
       setMobileDropdown(null);
@@ -91,7 +90,16 @@ const Navbar = () => {
           </div>
           
           <div className="flex items-center z-50">
-            <a href="#" className="hidden md:inline-block bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">Dashboard</a>
+            {/* DESKTOP DASHBOARD LINK - UPDATED */}
+            <a 
+              href="https://panel.legacycloud.qzz.io/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hidden md:inline-block bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
+            >
+              Dashboard
+            </a>
+
             <div className="md:hidden ml-4">
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-300 hover:text-white">
                 {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -141,7 +149,17 @@ const Navbar = () => {
                       </div>
                     )}
                  </div>
-                 <a href="#" onClick={closeAllMenus} className="text-gray-300 hover:bg-gray-800 p-3 rounded-lg transition-colors">Dashboard</a>
+
+                 {/* MOBILE DASHBOARD LINK - UPDATED */}
+                 <a 
+                   href="https://panel.legacycloud.qzz.io/" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   onClick={closeAllMenus} 
+                   className="text-gray-300 hover:bg-gray-800 p-3 rounded-lg transition-colors text-center bg-blue-600/20 border border-blue-600/30 font-semibold"
+                 >
+                   Dashboard
+                 </a>
                </div>
             </motion.div>
           </motion.div>
@@ -151,7 +169,6 @@ const Navbar = () => {
   );
 };
 
-// PERUBAHAN: Menggunakan <Link> untuk navigasi internal
 const DropdownItem = ({ icon: Icon, name, href }: { icon: React.ElementType, name: string, href: string }) => (
   <Link to={href} className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-800 transition-colors text-gray-300 hover:text-white">
     <Icon size={18} />
@@ -160,3 +177,4 @@ const DropdownItem = ({ icon: Icon, name, href }: { icon: React.ElementType, nam
 );
 
 export default Navbar;
+                                     
