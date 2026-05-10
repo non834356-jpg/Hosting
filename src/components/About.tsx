@@ -14,7 +14,7 @@ const About = () => {
         >
           {/* 2. Mengubah warna teks menjadi putih */}
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 text-center">
-            About CodeX
+            About Titan
           </h2>
           {/* 3. Mengubah warna sub-teks menjadi abu-abu terang */}
           <p className="text-lg sm:text-xl text-gray-300 leading-relaxed text-center">
