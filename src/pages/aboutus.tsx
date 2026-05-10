@@ -29,7 +29,7 @@ const AboutUs = () => {
                     transition={{ duration: 0.7 }} 
                     className="text-center mb-20"
                 >
-                    <h1 className="text-4xl md:text-6xl font-bold mb-4">About <span className="text-blue-400">CodeX</span></h1>
+                    <h1 className="text-4xl md:text-6xl font-bold mb-4">About <span className="text-blue-400">Titan</span></h1>
                     <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
                         Providing high-performance hosting solutions with leading technology for developers, gamers, and businesses worldwide.
                     </p>
