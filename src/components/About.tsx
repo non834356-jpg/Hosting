@@ -18,7 +18,7 @@ const About = () => {
           </h2>
           {/* 3. Mengubah warna sub-teks menjadi abu-abu terang */}
           <p className="text-lg sm:text-xl text-gray-300 leading-relaxed text-center">
-            At CodeX, we provide next-gen hosting solutions for developers and
+            At Titan, we provide next-gen hosting solutions for developers and
             communities. From Discord bots to Minecraft servers and Lavalink —
             we got you covered.
           </p>
