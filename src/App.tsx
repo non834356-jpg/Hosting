@@ -1,8 +1,12 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-// Komponen Halaman Utama
+// Komponen Layout & Global
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import NotFound from './components/NotFound';
+
+// Komponen Halaman Utama (Main Sections)
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Locations from './components/Locations';
@@ -11,10 +15,8 @@ import Questions from './components/Questions';
 import Experience from './components/Experience';
 import Reviews from './components/Reviews';
 import Cta from './components/Cta';
-import Footer from './components/Footer';
-import NotFound from './components/NotFound';
 
-// Import semua halaman baru
+// Import Semua Halaman Page
 import DiscordPricing from './pages/discord';
 import RdpPricing from './pages/Rdp';
 import MinecraftPricing from './pages/minecraft';
@@ -25,6 +27,9 @@ import TOS from './pages/tos';
 import PrivacyPolicy from './pages/privacy';
 import StatusPage from './pages/status';
 
+// Naya Checkout Page (Razorpay Integration ke liye)
+import Checkout from './pages/Checkout';
+
 // Komponen untuk scroll ke atas saat ganti halaman
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -34,7 +39,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-
+// Home Page Layout
 const Home = () => (
   <>
     <Hero />
@@ -51,31 +56,38 @@ const Home = () => (
 function App() {
   return (
     <Router>
+      {/* Har page change par screen top par reset hogi */}
       <ScrollToTop />
-      <div className="min-h-screen">
+      
+      <div className="min-h-screen bg-[#0a0a0a] selection:bg-blue-500/30 selection:text-blue-400">
         <Navbar />
+        
         <main>
           <Routes>
-            {/* Rute Halaman Utama */}
+            {/* 1. Main Landing Page */}
             <Route path="/" element={<Home />} />
 
-            {/* Rute Halaman Layanan */}
+            {/* 2. Service Pages */}
             <Route path="/discord" element={<DiscordPricing />} />
             <Route path="/minecraft" element={<MinecraftPricing />} />
             <Route path="/vps" element={<VpsPricing />} />
-            <Route path="/Rdp" element={<RdpPricing />} />
+            <Route path="/rdp" element={<RdpPricing />} />
 
-            {/* Rute Halaman More */}
+            {/* 3. Payment & Order Page */}
+            <Route path="/checkout" element={<Checkout />} />
+
+            {/* 4. More Information Pages */}
             <Route path="/about" element={<AboutUs />} />
             <Route path="/support" element={<Support />} />
             <Route path="/tos" element={<TOS />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/status" element={<StatusPage />} />
 
-            {/* Rute Not Found */}
+            {/* 5. 404 Page (Agar koi wrong URL dale) */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
+
         <Footer />
       </div>
     </Router>
