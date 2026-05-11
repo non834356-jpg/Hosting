@@ -1,12 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-// Komponen Layout & Global
+// Komponen Halaman Utama
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import NotFound from './components/NotFound';
-
-// Komponen Halaman Utama (Main Sections)
 import Hero from './components/Hero';
 import Features from './components/Features';
 import Locations from './components/Locations';
@@ -15,22 +11,26 @@ import Questions from './components/Questions';
 import Experience from './components/Experience';
 import Reviews from './components/Reviews';
 import Cta from './components/Cta';
+import Footer from './components/Footer';
+import NotFound from './components/NotFound';
 
-// Import Semua Halaman Page
+// Import semua halaman layanan
 import DiscordPricing from './pages/discord';
-import RdpPricing from './pages/Rdp';
 import MinecraftPricing from './pages/minecraft';
 import VpsPricing from './pages/vps';
+import RdpPricing from './pages/Rdp'; // RDP page add kiya
+
+// More pages
 import AboutUs from './pages/aboutus';
 import Support from './pages/support';
 import TOS from './pages/tos';
 import PrivacyPolicy from './pages/privacy';
 import StatusPage from './pages/status';
 
-// Naya Checkout Page (Razorpay Integration ke liye)
+// Razorpay Checkout Page
 import Checkout from './pages/Checkout';
 
-// Komponen untuk scroll ke atas saat ganti halaman
+// Komponen scroll ke atas (UX fix)
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -39,7 +39,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-// Home Page Layout
+// Home Page Layout (Author style)
 const Home = () => (
   <>
     <Hero />
@@ -56,42 +56,61 @@ const Home = () => (
 function App() {
   return (
     <Router>
-      {/* Har page change par screen top par reset hogi */}
       <ScrollToTop />
       
-      <div className="min-h-screen bg-[#0a0a0a] selection:bg-blue-500/30 selection:text-blue-400">
-        <Navbar />
+      {/* Main Wrapper: 
+          Author ne pehle background skip kiya tha, 
+          maine yahan #0a0a0a aur fixed background add kiya hai glitch fix karne ke liye.
+      */}
+      <div className="relative min-h-screen bg-[#0a0a0a] text-white selection:bg-blue-500/30 selection:text-blue-400">
         
-        <main>
-          <Routes>
-            {/* 1. Main Landing Page */}
-            <Route path="/" element={<Home />} />
+        {/* Global Background Layer (Fixed & Glitch-free) */}
+        <div 
+          className="fixed inset-0 z-0 opacity-20 pointer-events-none"
+          style={{ 
+            backgroundImage: "url('/background.png')", 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
+          }} 
+        />
 
-            {/* 2. Service Pages */}
-            <Route path="/discord" element={<DiscordPricing />} />
-            <Route path="/minecraft" element={<MinecraftPricing />} />
-            <Route path="/vps" element={<VpsPricing />} />
-            <Route path="/rdp" element={<RdpPricing />} />
+        {/* Website Content */}
+        <div className="relative z-10 flex flex-col min-h-screen">
+          <Navbar />
+          
+          <main className="flex-grow">
+            <Routes>
+              {/* Main Landing Page */}
+              <Route path="/" element={<Home />} />
 
-            {/* 3. Payment & Order Page */}
-            <Route path="/checkout" element={<Checkout />} />
+              {/* Halaman Layanan (Pricing) */}
+              <Route path="/discord" element={<DiscordPricing />} />
+              <Route path="/minecraft" element={<MinecraftPricing />} />
+              <Route path="/vps" element={<VpsPricing />} />
+              <Route path="/rdp" element={<RdpPricing />} />
 
-            {/* 4. More Information Pages */}
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/tos" element={<TOS />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/status" element={<StatusPage />} />
+              {/* Checkout Route for Razorpay */}
+              <Route path="/checkout" element={<Checkout />} />
 
-            {/* 5. 404 Page (Agar koi wrong URL dale) */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
+              {/* Halaman Informasi */}
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/tos" element={<TOS />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/status" element={<StatusPage />} />
 
-        <Footer />
+              {/* 404 Route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
       </div>
     </Router>
   );
 }
 
 export default App;
+                
