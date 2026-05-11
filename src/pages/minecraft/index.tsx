@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, HardDrive, MemoryStick, Shield } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // Added for navigation
 
-// Minecraft Logo (Aapka asset path sahi rakhein)
+// Minecraft Logo
 import minecraftLogo from '@/assets/minecraft.png';
 
 // --- India Flag Component ---
@@ -13,7 +14,6 @@ const IndiaFlag = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-// Updated Plans Based on your requirements
 const gamePlans = [
     { id: 1, name: 'Dirt Plan', ram: 2, cpu: 50, ssd: 6, price: 20, oldPrice: null },
     { id: 2, name: 'Stone Plan', ram: 4, cpu: 100, ssd: 8, price: 50, oldPrice: null },
@@ -25,6 +25,18 @@ const gamePlans = [
 ];
 
 const MinecraftPricing = () => {
+    const navigate = useNavigate(); // Initialize navigate
+
+    // Function to handle redirection with data
+    const handleOrder = (planName: string, price: number) => {
+        navigate('/checkout', { 
+            state: { 
+                planName: `Minecraft: ${planName}`, 
+                price: price 
+            } 
+        });
+    };
+
     return (
         <div className="min-h-screen text-white bg-[#0a0a0a]" style={{ backgroundImage: `url('/background.png')`, backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
             <section className="container mx-auto px-4 py-20 pt-32">
@@ -38,7 +50,7 @@ const MinecraftPricing = () => {
 
                 <div className="max-w-6xl mx-auto space-y-10">
                     
-                    {/* Location Section (Fixed to India) */}
+                    {/* Location Section */}
                     <div>
                         <h2 className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">Server Location</h2>
                         <div className="inline-flex items-center bg-green-600/20 border border-green-600 px-4 py-2 rounded-lg gap-2">
@@ -99,7 +111,11 @@ const MinecraftPricing = () => {
                                         <span className="text-3xl font-black text-white">₹{plan.price}</span>
                                         <span className="text-gray-400 text-sm">/mo</span>
                                     </div>
-                                    <button className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-green-900/20">
+                                    {/* Razorpay Connected Button */}
+                                    <button 
+                                        onClick={() => handleOrder(plan.name, plan.price)}
+                                        className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-green-900/20"
+                                    >
                                         Buy Now
                                     </button>
                                 </div>
@@ -113,4 +129,3 @@ const MinecraftPricing = () => {
 };
 
 export default MinecraftPricing;
-
