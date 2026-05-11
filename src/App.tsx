@@ -18,7 +18,7 @@ import NotFound from './components/NotFound';
 import DiscordPricing from './pages/discord';
 import MinecraftPricing from './pages/minecraft';
 import VpsPricing from './pages/vps';
-import RdpPricing from './pages/Rdp'; // RDP page add kiya
+import RdpPricing from './pages/Rdp';
 
 // More pages
 import AboutUs from './pages/aboutus';
@@ -26,11 +26,8 @@ import Support from './pages/support';
 import TOS from './pages/tos';
 import PrivacyPolicy from './pages/privacy';
 import StatusPage from './pages/status';
-
-// Razorpay Checkout Page
 import Checkout from './pages/Checkout';
 
-// Komponen scroll ke atas (UX fix)
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -39,7 +36,6 @@ const ScrollToTop = () => {
   return null;
 };
 
-// Home Page Layout (Author style)
 const Home = () => (
   <>
     <Hero />
@@ -59,48 +55,41 @@ function App() {
       <ScrollToTop />
       
       {/* Main Wrapper: 
-          Author ne pehle background skip kiya tha, 
-          maine yahan #0a0a0a aur fixed background add kiya hai glitch fix karne ke liye.
+          Yahan bg-transparent rakha hai taaki niche wali image 
+          ekdam original dikhe bina kisi dark layer ke.
       */}
-      <div className="relative min-h-screen bg-[#0a0a0a] text-white selection:bg-blue-500/30 selection:text-blue-400">
+      <div className="relative min-h-screen selection:bg-blue-500/30 selection:text-blue-400">
         
-        {/* Global Background Layer (Fixed & Glitch-free) */}
+        {/* --- ORIGINAL BACKGROUND LAYER --- */}
         <div 
-          className="fixed inset-0 z-0 opacity-20 pointer-events-none"
+          className="fixed inset-0 z-0 pointer-events-none"
           style={{ 
             backgroundImage: "url('/background.png')", 
             backgroundSize: 'cover', 
             backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
+            backgroundAttachment: 'fixed',
+            backgroundRepeat: 'no-repeat'
+            // Opacity hata di gayi hai taaki "Original" dikhe
           }} 
         />
 
-        {/* Website Content */}
+        {/* Website Content Layer */}
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navbar />
           
           <main className="flex-grow">
             <Routes>
-              {/* Main Landing Page */}
               <Route path="/" element={<Home />} />
-
-              {/* Halaman Layanan (Pricing) */}
               <Route path="/discord" element={<DiscordPricing />} />
               <Route path="/minecraft" element={<MinecraftPricing />} />
               <Route path="/vps" element={<VpsPricing />} />
               <Route path="/rdp" element={<RdpPricing />} />
-
-              {/* Checkout Route for Razorpay */}
               <Route path="/checkout" element={<Checkout />} />
-
-              {/* Halaman Informasi */}
               <Route path="/about" element={<AboutUs />} />
               <Route path="/support" element={<Support />} />
               <Route path="/tos" element={<TOS />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/status" element={<StatusPage />} />
-
-              {/* 404 Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
@@ -113,4 +102,3 @@ function App() {
 }
 
 export default App;
-                
