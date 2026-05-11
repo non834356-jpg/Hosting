@@ -1,32 +1,39 @@
 import { motion } from 'framer-motion';
 import { CreditCard, ShieldCheck, Zap, ArrowLeft, Shield } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Checkout = () => {
+  const location = useLocation();
+
+  // Pricing page se data lene ke liye (Fallbacks added)
+  const planName = location.state?.planName || "Select a Plan";
+  const planPrice = location.state?.price || 0;
+
   // --- RAZORPAY INTEGRATION FUNCTION ---
   const handlePayment = () => {
+    if (planPrice === 0) {
+      alert("Please select a valid plan first.");
+      return;
+    }
+
     const options = {
       key: "YOUR_RAZORPAY_KEY_ID", // Yahan apni Razorpay Key Id dalein
-      amount: 50000, // Amount in paise (500 INR)
+      amount: planPrice * 100, // Amount dynamic ho gaya (Price * 100 paise)
       currency: "INR",
       name: "TITAN HOSTING",
-      description: "Premium Hosting Solution",
+      description: `Payment for ${planName}`,
       image: "/codex.png",
       handler: function (response: any) {
-        // Payment success hone ke baad ye code chalega
         alert("Payment Successful! ID: " + response.razorpay_payment_id);
-        console.log("Payment Details:", response);
+        // Success logic yahan aayega (e.g., redirect to success page)
       },
       prefill: {
         name: "Customer Name",
         email: "customer@example.com",
         contact: "91XXXXXXXXXX"
       },
-      notes: {
-        address: "Jharkhand, India"
-      },
       theme: {
-        color: "#2563eb" // Blue theme to match your brand
+        color: "#2563eb" 
       }
     };
 
@@ -50,7 +57,7 @@ const Checkout = () => {
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Left: Order Summary */}
+          {/* Left: Dynamic Order Summary */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -61,10 +68,10 @@ const Checkout = () => {
             <div className="space-y-4 mb-8">
               <div className="flex justify-between items-center py-4 border-b border-white/5">
                 <div>
-                  <h4 className="font-semibold">Titan Premium Node</h4>
-                  <p className="text-sm text-gray-400">32GB RAM / 8 vCPU</p>
+                  <h4 className="font-semibold text-lg">{planName}</h4>
+                  <p className="text-sm text-gray-400">High Performance Node</p>
                 </div>
-                <span className="font-bold">₹500.00</span>
+                <span className="font-bold text-xl text-blue-400">₹{planPrice}.00</span>
               </div>
               
               <div className="flex justify-between items-center text-sm text-gray-400">
@@ -78,12 +85,12 @@ const Checkout = () => {
             </div>
 
             <div className="flex justify-between items-center text-3xl font-bold pt-4 border-t border-white/10">
-              <span className="text-lg font-medium text-gray-400">Total</span>
-              <span className="text-blue-500">₹500.00</span>
+              <span className="text-lg font-medium text-gray-400">Total Bill</span>
+              <span className="text-blue-500">₹{planPrice}.00</span>
             </div>
           </motion.div>
 
-          {/* Right: Payment Method Section */}
+          {/* Right: Payment Section */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -100,34 +107,39 @@ const Checkout = () => {
                   <div className="bg-blue-600/20 p-2 rounded-lg">
                     <Zap className="text-blue-400" size={18} />
                   </div>
-                  <p className="text-sm text-gray-400">Servers are activated instantly after payment confirmation.</p>
+                  <p className="text-sm text-gray-400">Server activation begins immediately after payment.</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="bg-green-600/20 p-2 rounded-lg">
                     <ShieldCheck className="text-green-400" size={18} />
                   </div>
-                  <p className="text-sm text-gray-400">Your transaction is protected by 256-bit SSL encryption.</p>
+                  <p className="text-sm text-gray-400">Payment is secured by Razorpay encrypted gateway.</p>
                 </div>
               </div>
 
               <button 
                 onClick={handlePayment}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-600/30"
+                disabled={planPrice === 0}
+                className={`w-full py-4 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 transition-all transform ${
+                  planPrice === 0 
+                  ? 'bg-gray-700 cursor-not-allowed' 
+                  : 'bg-blue-600 hover:bg-blue-700 hover:scale-[1.02] shadow-lg shadow-blue-600/30'
+                }`}
               >
                 <CreditCard size={20} />
-                Pay with Razorpay
+                {planPrice === 0 ? 'Select a Plan First' : `Pay ₹${planPrice} now`}
               </button>
 
-              <div className="mt-6 flex justify-center gap-4 grayscale opacity-50">
-                {/* Yahan payment icons placeholder hain */}
+              <div className="mt-6 flex flex-col items-center gap-2 opacity-60">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" alt="Razorpay" className="h-4 invert" />
+                <p className="text-[10px] text-gray-500">UPI • CARDS • NETBANKING • WALLETS</p>
               </div>
             </div>
 
-            {/* Trust Badges */}
-            <div className="text-center">
-              <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">Money Back Guarantee</p>
-              <p className="text-xs text-gray-600">Cancel within 24 hours if you're not satisfied.</p>
+            <div className="text-center px-4">
+              <p className="text-[10px] text-gray-500 uppercase tracking-tighter">
+                By clicking pay, you agree to our Terms of Service.
+              </p>
             </div>
           </motion.div>
         </div>
@@ -137,4 +149,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
+            
