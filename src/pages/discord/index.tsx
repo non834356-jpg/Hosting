@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, Zap, HardDrive, Wifi, ShieldCheck, LifeBuoy, ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // 1. Navigate import kiya
 import nodejsImg from "@/assets/nodejs.jpg";
 
 const currencies = {
@@ -9,12 +10,11 @@ const currencies = {
   EUR: { symbol: '€', name: 'Euro', rate: 0.92 },
 };
 
-// Updated Pricing with your custom plans
 const discordPlans = [
   {
     name: 'Starter Plan',
     type: 'Discord Bot',
-    priceUSD: 0.30, // ₹25.00 / 83.5
+    priceUSD: 0.30, 
     cpu: '50% (3.70Ghz)',
     ram: '1 GB DDR4',
     storage: '5 GB',
@@ -26,7 +26,7 @@ const discordPlans = [
   {
     name: 'Basic Plan',
     type: 'Discord Bot',
-    priceUSD: 0.60, // ₹50.00 / 83.5
+    priceUSD: 0.60, 
     cpu: '125% (3.70Ghz)',
     ram: '3 GB DDR4',
     storage: '10 GB',
@@ -38,7 +38,7 @@ const discordPlans = [
   {
     name: 'Professional Plan',
     type: 'Discord Bot',
-    priceUSD: 0.96, // ₹80.00 / 83.5
+    priceUSD: 0.96, 
     cpu: '225% (3.70Ghz)',
     ram: '5 GB DDR4',
     storage: '15 GB',
@@ -50,7 +50,7 @@ const discordPlans = [
   {
     name: 'Custom Plan',
     type: 'Discord Bot',
-    priceUSD: 0, // Manual contact for pricing
+    priceUSD: 0, 
     cpu: 'Custom vCore',
     ram: 'Custom RAM',
     storage: 'Custom',
@@ -84,8 +84,26 @@ const DiscordBotPricing = () => {
   const [activeTab, setActiveTab] = useState('premium');
   const [selectedCurrency, setSelectedCurrency] = useState('INR');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  
+  const navigate = useNavigate(); // 2. Navigate initialize kiya
   const currentCurrency = currencies[selectedCurrency as keyof typeof currencies];
+
+  // 3. Handle Order Function
+  const handleOrder = (plan: any) => {
+    if (plan.isCustom) {
+      window.location.href = "/support"; // Custom plan ke liye support par bheja
+      return;
+    }
+
+    const calculatedPrice = Math.round(plan.priceUSD * currentCurrency.rate);
+
+    navigate('/checkout', { 
+      state: { 
+        planName: `Discord: ${plan.name}`, 
+        price: calculatedPrice 
+      } 
+    });
+  };
 
   return (
     <div className="min-h-screen" style={{ backgroundImage: `url('/background.png')`, backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
@@ -208,7 +226,11 @@ const DiscordBotPricing = () => {
               </div>
               
               <div className="p-6 pt-0 mt-auto">
-                <button className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 group-hover:shadow-lg group-hover:shadow-blue-600/30">
+                {/* 4. Button click handle kiya */}
+                <button 
+                  onClick={() => handleOrder(plan)}
+                  className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300 group-hover:shadow-lg group-hover:shadow-blue-600/30"
+                >
                   {plan.isCustom ? 'Get Quote' : 'Order Now'}
                 </button>
               </div>
@@ -216,7 +238,7 @@ const DiscordBotPricing = () => {
           ))}
         </div>
         
-        {/* === Advanced Features Section === */}
+        {/* Advanced Features Section same rahega */}
         <div className="mt-24">
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-white">Advanced <span className="text-blue-400">Features</span></h2>
@@ -247,3 +269,4 @@ const DiscordBotPricing = () => {
 };
 
 export default DiscordBotPricing;
+                                                                             
