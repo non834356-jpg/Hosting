@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, HardDrive, MemoryStick, ChevronDown, Shield, Headset, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // 1. Navigate import kiya
 
-// --- OS Logo Imports (Paths aapke assets ke hisaab se sahi rakhein) ---
+// --- OS Logo Imports ---
 import ubuntuLogo from '@/assets/ubuntu.png';
 import windowsLogo from '@/assets/windows.png';
 import fedoraLogo from '@/assets/fedora.png';
@@ -29,15 +30,27 @@ const operatingSystems = [
 const RdpPricing = () => {
     const [selectedCurrency, setSelectedCurrency] = useState('INR');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const navigate = useNavigate(); // 2. Navigate initialize kiya
     
     const currentCurrency = currencies[selectedCurrency as keyof typeof currencies];
 
+    // 3. Handle Order Function
+    const handleOrder = (plan: any) => {
+        // Price calculation based on current currency
+        const finalPrice = Math.round(plan.priceINR * currentCurrency.rate);
+        
+        navigate('/checkout', { 
+            state: { 
+                planName: `RDP: ${plan.name}`, 
+                price: finalPrice 
+            } 
+        });
+    };
+
     return (
-        /* BACKGROUND SETTINGS: Exactly same as your Minecraft code */
         <div className="min-h-screen text-white bg-[#0a0a0a]" style={{ backgroundImage: `url('/background.png')`, backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
             <section className="container mx-auto px-4 py-20 pt-32">
                 
-                {/* Header Section - Text responsive kiya hai taaki RDP pura dikhe */}
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
                     <h2 className="text-blue-500 font-bold tracking-[0.3em] uppercase text-[10px] mb-2">TaitanHosting Premium</h2>
                     <h1 className="text-3xl md:text-6xl font-black mb-4 tracking-tighter">
@@ -111,7 +124,11 @@ const RdpPricing = () => {
                                     </p>
                                     <p className="text-[8px] text-gray-600 uppercase font-black">/ Monthly</p>
                                 </div>
-                                <button className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-600/20 active:scale-95">
+                                {/* 4. HandleOrder call kiya Order button par */}
+                                <button 
+                                    onClick={() => handleOrder(plan)}
+                                    className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-600/20 active:scale-95"
+                                >
                                     Order
                                 </button>
                             </div>
@@ -132,7 +149,7 @@ const RdpPricing = () => {
                     </div>
                 </div>
 
-                {/* OS Grid */}
+                {/* OS Grid Section */}
                 <div className="mt-24 text-center pb-20">
                     <h2 className="text-[9px] font-black uppercase tracking-[0.4em] mb-10 text-gray-600">Available Systems</h2>
                     <div className="flex justify-center flex-wrap gap-8">
@@ -153,4 +170,3 @@ const RdpPricing = () => {
 };
 
 export default RdpPricing;
-                        
