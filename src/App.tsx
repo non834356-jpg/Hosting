@@ -28,6 +28,9 @@ import PrivacyPolicy from './pages/privacy';
 import StatusPage from './pages/status';
 import Checkout from './pages/Checkout';
 
+// === LOGIN/SIGNUP PAGE IMPORT ===
+import Auth from './pages/Auth'; 
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -54,10 +57,7 @@ function App() {
     <Router>
       <ScrollToTop />
       
-      {/* Main Wrapper: 
-          Yahan bg-transparent rakha hai taaki niche wali image 
-          ekdam original dikhe bina kisi dark layer ke.
-      */}
+      {/* Main Wrapper */}
       <div className="relative min-h-screen selection:bg-blue-500/30 selection:text-blue-400">
         
         {/* --- ORIGINAL BACKGROUND LAYER --- */}
@@ -69,7 +69,6 @@ function App() {
             backgroundPosition: 'center',
             backgroundAttachment: 'fixed',
             backgroundRepeat: 'no-repeat'
-            // Opacity hata di gayi hai taaki "Original" dikhe
           }} 
         />
 
@@ -79,17 +78,29 @@ function App() {
           
           <main className="flex-grow">
             <Routes>
+              {/* Main Landing Page */}
               <Route path="/" element={<Home />} />
+
+              {/* AUTH ROUTE (Login/Signup) */}
+              <Route path="/login" element={<Auth />} />
+
+              {/* Halaman Layanan */}
               <Route path="/discord" element={<DiscordPricing />} />
               <Route path="/minecraft" element={<MinecraftPricing />} />
               <Route path="/vps" element={<VpsPricing />} />
               <Route path="/rdp" element={<RdpPricing />} />
+
+              {/* Checkout Route */}
               <Route path="/checkout" element={<Checkout />} />
+
+              {/* Halaman Informasi */}
               <Route path="/about" element={<AboutUs />} />
               <Route path="/support" element={<Support />} />
               <Route path="/tos" element={<TOS />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/status" element={<StatusPage />} />
+
+              {/* 404 Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
@@ -102,3 +113,4 @@ function App() {
 }
 
 export default App;
+              
