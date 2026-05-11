@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, Bot, Server, Globe, Info, HelpingHand, FileText, Shield, BarChart, Monitor, User, LogOut } from 'lucide-react';
 
-// --- Data untuk dropdown menu (Original items) ---
 const serviceItems = [
   { icon: Bot, name: 'Discord Bot', href: '/discord' },
   { icon: Server, name: 'Minecraft Server', href: '/minecraft' },
@@ -29,10 +28,11 @@ const Navbar = () => {
   const timeoutRef = useRef<number | null>(null);
   const navigate = useNavigate();
 
-  // Load user data on mount
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
-    if (savedUser) setUser(JSON.parse(savedUser));
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
   }, []);
 
   const handleLogout = () => {
@@ -68,7 +68,7 @@ const Navbar = () => {
             <img src="/codex.png" alt="CodeX Logo" className="h-10 w-auto" />
           </Link>
 
-          {/* === ORIGINAL CENTER PILL MENU UI === */}
+          {/* DESKTOP UI: Center Pill Design (Original) */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
             <div className="flex items-center space-x-2 bg-gray-800/50 backdrop-blur-md border border-gray-700 rounded-full px-4 py-2">
               <Link to="/" className="text-gray-300 hover:text-white transition-colors text-sm font-medium px-3 py-1 rounded-full">Home</Link>
@@ -108,7 +108,7 @@ const Navbar = () => {
           </div>
           
           <div className="flex items-center gap-4 z-50">
-            {/* Dashboard Link */}
+            {/* Dashboard Link (Original Style) */}
             <a 
               href="https://panel.legacycloud.qzz.io/" 
               target="_blank" 
@@ -118,7 +118,7 @@ const Navbar = () => {
               Dashboard
             </a>
 
-            {/* Profile / Login logic (Integrated into original UI) */}
+            {/* Profile / Login Toggle (Original UI Integration) */}
             {user ? (
               <div className="relative">
                 <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="p-2 text-gray-300 hover:text-blue-400 transition-colors">
@@ -136,7 +136,7 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <Link to="/login" className="hidden md:inline-block text-gray-300 hover:text-white text-sm font-bold px-3 py-1">
+              <Link to="/login" className="hidden md:inline-block text-gray-300 hover:text-white text-sm font-bold px-3">
                 Login
               </Link>
             )}
@@ -150,7 +150,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu UI */}
+      {/* MOBILE UI: Original Drawer Design */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -181,12 +181,12 @@ const Navbar = () => {
                  </div>
 
                  {user ? (
-                   <button onClick={handleLogout} className="text-red-400 p-3 text-left">Logout</button>
+                   <button onClick={handleLogout} className="text-red-400 p-3 text-left w-full">Logout</button>
                  ) : (
                    <Link to="/login" onClick={closeAllMenus} className="text-gray-300 p-3">Login</Link>
                  )}
 
-                 <a href="https://panel.legacycloud.qzz.io/" target="_blank" rel="noopener noreferrer" className="text-center bg-blue-600 text-white p-3 rounded-lg font-semibold mt-4">Dashboard</a>
+                 <a href="https://panel.legacycloud.qzz.io/" target="_blank" rel="noopener noreferrer" onClick={closeAllMenus} className="text-center bg-blue-600 text-white p-3 rounded-lg font-semibold mt-4">Dashboard</a>
                </div>
             </motion.div>
           </motion.div>
@@ -204,4 +204,4 @@ const DropdownItem = ({ icon: Icon, name, href }: { icon: React.ElementType, nam
 );
 
 export default Navbar;
-      
+                          
