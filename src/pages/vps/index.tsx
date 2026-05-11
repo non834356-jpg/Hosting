@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, HardDrive, MemoryStick, ChevronLeft, ChevronRight, ChevronDown, Shield, Headset, Zap } from 'lucide-react';
+import { Cpu, HardDrive, MemoryStick, ChevronDown, Shield, Headset, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // 1. Navigate import kiya
 
 // --- OS Logo Imports ---
 import ubuntuLogo from '@/assets/ubuntu.png';
@@ -15,7 +16,6 @@ const currencies = {
     EUR: { symbol: '€', name: 'Euro', rate: 0.011 },
 };
 
-// TAITANHOSTING Specific Plans
 const vpsPlans = [
     { id: 1, name: 'Emerald Plan', cpuType: 'Intel Xeon E5', cores: 4, ram: 16, ssd: 80, priceINR: 600 },
     { id: 2, name: 'Netherite Plan', cpuType: 'Intel Xeon E5', cores: 6, ram: 24, ssd: 100, priceINR: 700 },
@@ -30,20 +30,26 @@ const operatingSystems = [
 const VpsPricing = () => {
     const [selectedCurrency, setSelectedCurrency] = useState('INR');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const navigate = useNavigate(); // 2. Navigate initialize kiya
     
     const currentCurrency = currencies[selectedCurrency as keyof typeof currencies];
 
+    // 3. Handle Order Function
+    const handleOrder = (plan: any) => {
+        // Price calculation: Base INR * selected currency rate
+        const finalPrice = Math.round(plan.priceINR * currentCurrency.rate);
+        
+        navigate('/checkout', { 
+            state: { 
+                planName: `VPS: ${plan.name}`, 
+                price: finalPrice 
+            } 
+        });
+    };
+
     return (
-        <div 
-            className="min-h-screen text-white" 
-            style={{ 
-                backgroundImage: `url('/background.png')`, 
-                backgroundAttachment: 'fixed', 
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-            }}
-        >
-            <section className="container mx-auto px-4 py-20 pt-32 bg-black/40 min-h-screen">
+        <div className="min-h-screen text-white">
+            <section className="container mx-auto px-4 py-20 pt-32 min-h-screen">
                 
                 {/* Header Section */}
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
@@ -119,7 +125,11 @@ const VpsPricing = () => {
                                     </p>
                                     <p className="text-xs text-gray-400">/month</p>
                                 </div>
-                                <button className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20">
+                                {/* 4. HandleOrder call kiya Button par */}
+                                <button 
+                                    onClick={() => handleOrder(plan)}
+                                    className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20"
+                                >
                                     Order Now
                                 </button>
                             </div>
@@ -172,4 +182,4 @@ const VpsPricing = () => {
 };
 
 export default VpsPricing;
-                                                
+                                
