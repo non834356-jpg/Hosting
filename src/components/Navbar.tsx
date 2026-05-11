@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown, Bot, Server, Globe, Info, HelpingHand, FileText, Shield, BarChart, Monitor, User, LogOut } from 'lucide-react';
 
+// --- Data untuk dropdown menu (Original items) ---
 const serviceItems = [
   { icon: Bot, name: 'Discord Bot', href: '/discord' },
   { icon: Server, name: 'Minecraft Server', href: '/minecraft' },
@@ -28,6 +29,7 @@ const Navbar = () => {
   const timeoutRef = useRef<number | null>(null);
   const navigate = useNavigate();
 
+  // Load user data on mount
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) setUser(JSON.parse(savedUser));
@@ -66,7 +68,7 @@ const Navbar = () => {
             <img src="/codex.png" alt="CodeX Logo" className="h-10 w-auto" />
           </Link>
 
-          {/* === ORIGINAL CENTER PILL MENU (NO CHANGES) === */}
+          {/* === ORIGINAL CENTER PILL MENU UI === */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
             <div className="flex items-center space-x-2 bg-gray-800/50 backdrop-blur-md border border-gray-700 rounded-full px-4 py-2">
               <Link to="/" className="text-gray-300 hover:text-white transition-colors text-sm font-medium px-3 py-1 rounded-full">Home</Link>
@@ -106,7 +108,7 @@ const Navbar = () => {
           </div>
           
           <div className="flex items-center gap-4 z-50">
-            {/* Dashboard Link (Same as original) */}
+            {/* Dashboard Link */}
             <a 
               href="https://panel.legacycloud.qzz.io/" 
               target="_blank" 
@@ -116,7 +118,7 @@ const Navbar = () => {
               Dashboard
             </a>
 
-            {/* Profile / Login logic (Same original style) */}
+            {/* Profile / Login logic (Integrated into original UI) */}
             {user ? (
               <div className="relative">
                 <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="p-2 text-gray-300 hover:text-blue-400 transition-colors">
@@ -148,7 +150,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu (Same as original) */}
+      {/* Mobile Menu UI */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -202,3 +204,4 @@ const DropdownItem = ({ icon: Icon, name, href }: { icon: React.ElementType, nam
 );
 
 export default Navbar;
+      
