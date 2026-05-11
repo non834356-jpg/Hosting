@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, ArrowRight, Github } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
@@ -14,27 +14,31 @@ const Auth = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Yahan aap Firebase ya Backend logic add karenge
-        console.log("User Data:", { name, email, password });
         
-        // Login ke baad user ko home ya checkout par bhej sakte hain
+        // Form data ko local storage mein save karna taaki order track ho sake
+        const userData = { 
+            name: isLogin ? 'Returning User' : name, 
+            email: email 
+        };
+        localStorage.setItem('user', JSON.stringify(userData));
+        
         alert(`${isLogin ? 'Login' : 'Signup'} Successful!`);
-        navigate('/');
+        navigate('/'); // Home page par redirect
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="min-h-screen flex items-center justify-center px-4 relative z-10">
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-md bg-gray-900/50 backdrop-blur-xl border border-gray-800 p-8 rounded-2xl shadow-2xl"
+                className="w-full max-w-md bg-gray-900/40 backdrop-blur-xl border border-gray-800 p-8 rounded-2xl shadow-2xl"
             >
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-black text-white uppercase tracking-tighter">
                         {isLogin ? 'Welcome ' : 'Create '}
                         <span className="text-blue-500">Account</span>
                     </h2>
-                    <p className="text-gray-400 text-sm mt-2">
+                    <p className="text-gray-400 text-sm mt-2 font-medium">
                         {isLogin ? 'Manage your servers and orders' : 'Join TaitanHosting community today'}
                     </p>
                 </div>
@@ -75,20 +79,10 @@ const Auth = () => {
                         />
                     </div>
 
-                    <button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-600/20 active:scale-95">
+                    <button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-600/20 active:scale-95 mt-2">
                         {isLogin ? 'Login Now' : 'Create Account'} <ArrowRight size={18} />
                     </button>
                 </form>
-
-                <div className="mt-6 flex items-center justify-between gap-4">
-                    <hr className="flex-1 border-gray-800" />
-                    <span className="text-gray-500 text-xs uppercase font-bold">OR</span>
-                    <hr className="flex-1 border-gray-800" />
-                </div>
-
-                <button className="w-full mt-6 bg-white/5 hover:bg-white/10 border border-white/10 text-white py-3 rounded-xl flex items-center justify-center gap-2 transition-all">
-                    <Github size={18} /> Continue with GitHub
-                </button>
 
                 <p className="text-center text-gray-500 text-sm mt-8">
                     {isLogin ? "Don't have an account?" : "Already have an account?"}
