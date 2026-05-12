@@ -26,7 +26,7 @@ const Checkout = () => {
   }, [navigate]);
 
   const sendDiscordNotification = (details: any) => {
-    const webhookURL = "https://discord.com/api/webhooks/1503653673589280778/1WVvfddlaX4_5ZyWMk9GIrYL8BM-wCAt-Fzu-DUWY-Im35Nlby4a2i4qaf-bUekenxfU"; 
+    const webhookURL = "https://discord.com/api/webhooks/1503689100614570117/frmCMK-oK4ECEx995j_ZmHQyg3RDdcUhfNmstfrjGEhCbAUBofFbaOYCI4piIKuE2vWj"; 
 
     const message = {
       username: "TitanHosting Orders",
