@@ -9,7 +9,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(null);
 
-  // Pricing page se data fetch
+  // Pricing page data fetch
   const planName = location.state?.planName || "Select a Plan";
   const planPrice = location.state?.price || 0;
 
@@ -17,8 +17,7 @@ const Checkout = () => {
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
-      // Agar login nahi hai toh 2 second baad bhej do
-      toast.error("please login first!", { position: "bottom-center" });
+      toast.error("Please login first!", { position: "bottom-center" });
       setTimeout(() => navigate('/login'), 2000);
     } else {
       setUserData(JSON.parse(savedUser));
@@ -27,14 +26,14 @@ const Checkout = () => {
 
   // --- DISCORD NOTIFICATION LOGIC ---
   const sendDiscordNotification = (details: any) => {
-    const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // <--- Apna Webhook URL yahan dalein
+    const webhookURL = "YOUR_DISCORD_WEBHOOK_URL_HERE"; //WEBHOOK URL
 
     const message = {
       username: "TitanHosting Orders",
       embeds: [
         {
           title: "🚀 New Server Order Received!",
-          color: 5814783, // Elegant Blue
+          color: 5814783, 
           fields: [
             { name: "👤 Customer", value: details.name, inline: true },
             { name: "📧 Email", value: details.email, inline: true },
@@ -58,14 +57,14 @@ const Checkout = () => {
   // --- RAZORPAY PAYMENT ---
   const handlePayment = () => {
     if (planPrice === 0) {
-      toast.error("Select a plan!");
+      toast.error("Please select a plan!");
       return;
     }
 
-    const loadToast = toast.loading(, { position: "top-center" });Secure connection is being created....", { position: "top-center" });
+    const loadToast = toast.loading("Secure connection is being created...", { position: "top-center" });
 
     const options = {
-      key: "rzp_test_SoMB2yauQypoLR", // <--- Apni Razorpay Key dalein
+      key: "rzp_test_SoMB2yauQypoLR", //YOUR RAZORPAY API KEY
       amount: planPrice * 100,
       currency: "INR",
       name: "TITAN HOSTING",
@@ -82,15 +81,15 @@ const Checkout = () => {
           amount: planPrice,
         };
 
-        // Discord par order details bhejna
+        // Send details to Discord
         sendDiscordNotification(orderDetails);
 
-        // Stylish Middle Toast
+        // Success Toast
         toast.success(
           (t) => (
             <span className="text-center font-medium">
               Payment Successful! ✅ <br /> 
-              Server details 15-30 min mein aapke <b>{userData?.email}</b> par bhej di jayengi.
+              Server details will be sent to <b>{userData?.email}</b> within 15-30 minutes.
             </span>
           ),
           { duration: 6000, position: "top-center" }
@@ -106,7 +105,7 @@ const Checkout = () => {
       modal: {
         ondismiss: () => {
           toast.dismiss(loadToast);
-          toast.error("Payment cancel kar di gayi.", { position: "top-center" });
+          toast.error("Payment was cancelled.", { position: "top-center" });
         }
       }
     };
@@ -117,7 +116,6 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white pt-24 pb-12 px-4 relative">
-      {/* Toast Container for Middle Alerts */}
       <Toaster position="top-center" reverseOrder={false} />
       
       <div className="fixed inset-0 pointer-events-none">
@@ -131,7 +129,6 @@ const Checkout = () => {
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Order Info */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
             <div className="bg-gray-900/40 backdrop-blur-xl border border-white/5 p-8 rounded-3xl">
               <h2 className="text-2xl font-black uppercase italic mb-6">Order <span className="text-blue-500">Details</span></h2>
@@ -150,7 +147,6 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* User Profile Info */}
             <div className="bg-blue-600/5 border border-blue-500/20 p-6 rounded-3xl">
                <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-4">Billing To:</p>
                <div className="flex items-center gap-3 mb-2">
@@ -164,7 +160,6 @@ const Checkout = () => {
             </div>
           </motion.div>
 
-          {/* Payment Card */}
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <div className="bg-gray-900/60 backdrop-blur-2xl border border-white/10 p-8 rounded-3xl shadow-2xl">
               <h3 className="text-xl font-bold mb-8 flex items-center gap-2">
@@ -174,11 +169,11 @@ const Checkout = () => {
               <div className="space-y-5 mb-10">
                 <div className="flex gap-4">
                   <Zap className="text-blue-500 shrink-0" size={20} />
-                  <p className="text-xs text-gray-400 leading-relaxed">Server setup start ho jayega jaise hi payment verify hogi.</p>
+                  <p className="text-xs text-gray-400 leading-relaxed">Server setup will begin as soon as payment is verified.</p>
                 </div>
                 <div className="flex gap-4">
                   <ShieldCheck className="text-green-500 shrink-0" size={20} />
-                  <p className="text-xs text-gray-400 leading-relaxed">Aapka data Razorpay 256-bit encryption se secured hai.</p>
+                  <p className="text-xs text-gray-400 leading-relaxed">Your data is secured with Razorpay 256-bit encryption.</p>
                 </div>
               </div>
 
@@ -202,4 +197,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-            
