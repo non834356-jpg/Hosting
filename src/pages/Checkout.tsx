@@ -65,7 +65,7 @@ const Checkout = () => {
     const loadToast = toast.loading("Secure connection ban raha hai...", { position: "top-center" });
 
     const options = {
-      key: "YOUR_RAZORPAY_KEY_ID", // <--- Apni Razorpay Key dalein
+      key: "rzp_test_SoMB2yauQypoLR", // <--- Apni Razorpay Key dalein
       amount: planPrice * 100,
       currency: "INR",
       name: "TITAN HOSTING",
