@@ -4,7 +4,7 @@ import { ShieldCheck, Zap, ArrowLeft, Shield, User, Mail } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 // Firebase imports
-import { db } from './firebase'; 
+import { db } from '../components/firebase'; 
 import { collection, addDoc } from 'firebase/firestore';
 
 const Checkout = () => {
