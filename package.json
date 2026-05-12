@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "firebase": "^10.11.0",
+    "react-hot-toast": "^2.4.1",
     "@supabase/supabase-js": "^2.57.4",
     "framer-motion": "^12.23.22",
     "lucide-react": "^0.344.0",
