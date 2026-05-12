@@ -2,9 +2,16 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { auth } from './firebase'; // Aapki banayi hui firebase file
+import { 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    updateProfile 
+} from 'firebase/auth';
 
 const Auth = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     // Form states
@@ -12,18 +19,40 @@ const Auth = () => {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         
-        // Form data ko local storage mein save karna taaki order track ho sake
-        const userData = { 
-            name: isLogin ? 'Returning User' : name, 
-            email: email 
-        };
-        localStorage.setItem('user', JSON.stringify(userData));
-        
-        alert(`${isLogin ? 'Login' : 'Signup'} Successful!`);
-        navigate('/'); // Home page par redirect
+        try {
+            if (isLogin) {
+                // Firebase Login
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                localStorage.setItem('user', JSON.stringify({ 
+                    name: user.displayName || 'User', 
+                    email: user.email 
+                }));
+            } else {
+                // Firebase Signup
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                // Name update karna profile mein
+                await updateProfile(userCredential.user, { displayName: name });
+                
+                localStorage.setItem('user', JSON.stringify({ name, email }));
+            }
+
+            // --- REFRESH FIX ---
+            // LocalStorage change event trigger karna taaki Navbar/Header turant update ho jaye
+            window.dispatchEvent(new Event("storage")); 
+            
+            // Navigate se pehle alert hata kar smooth redirection
+            navigate('/'); 
+        } catch (error: any) {
+            alert(error.message); // Yahan error handle hoga
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -39,7 +68,7 @@ const Auth = () => {
                         <span className="text-blue-500">Account</span>
                     </h2>
                     <p className="text-gray-400 text-sm mt-2 font-medium">
-                        {isLogin ? 'Manage your servers and orders' : 'Join TaitanHosting community today'}
+                        {isLogin ? 'Manage your servers and orders' : 'Join TitanHosting community today'}
                     </p>
                 </div>
 
@@ -52,6 +81,7 @@ const Auth = () => {
                                 placeholder="Full Name"
                                 className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white focus:border-blue-500 outline-none transition-all"
                                 required
+                                value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </div>
@@ -64,6 +94,7 @@ const Auth = () => {
                             placeholder="Email Address"
                             className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white focus:border-blue-500 outline-none transition-all"
                             required
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
@@ -75,12 +106,17 @@ const Auth = () => {
                             placeholder="Password"
                             className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white focus:border-blue-500 outline-none transition-all"
                             required
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
 
-                    <button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-600/20 active:scale-95 mt-2">
-                        {isLogin ? 'Login Now' : 'Create Account'} <ArrowRight size={18} />
+                    <button 
+                        disabled={loading}
+                        className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-600/20 active:scale-95 mt-2"
+                    >
+                        {loading ? 'Processing...' : (isLogin ? 'Login Now' : 'Create Account')} 
+                        {!loading && <ArrowRight size={18} />}
                     </button>
                 </form>
 
