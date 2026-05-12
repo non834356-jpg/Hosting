@@ -28,11 +28,21 @@ const Navbar = () => {
   const timeoutRef = useRef<number | null>(null);
   const navigate = useNavigate();
 
+  // --- Profile Icon Fix: No Refresh Needed ---
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
+    const checkUser = () => {
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      } else {
+        setUser(null);
+      }
+    };
+
+    checkUser();
+    // Check for login changes every 1 second
+    const interval = setInterval(checkUser, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleLogout = () => {
@@ -68,7 +78,6 @@ const Navbar = () => {
             <img src="/codex.png" alt="CodeX Logo" className="h-10 w-auto" />
           </Link>
 
-          {/* DESKTOP UI: Center Pill Design (Original) */}
           <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
             <div className="flex items-center space-x-2 bg-gray-800/50 backdrop-blur-md border border-gray-700 rounded-full px-4 py-2">
               <Link to="/" className="text-gray-300 hover:text-white transition-colors text-sm font-medium px-3 py-1 rounded-full">Home</Link>
@@ -108,17 +117,8 @@ const Navbar = () => {
           </div>
           
           <div className="flex items-center gap-4 z-50">
-            {/* Dashboard Link (Original Style) */}
-            <a 
-              href="https://panel.legacycloud.qzz.io/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hidden md:inline-block bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
-            >
-              Dashboard
-            </a>
+            <a href="https://panel.legacycloud.qzz.io/" target="_blank" rel="noopener noreferrer" className="hidden md:inline-block bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">Dashboard</a>
 
-            {/* Profile / Login Toggle (Original UI Integration) */}
             {user ? (
               <div className="relative">
                 <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="p-2 text-gray-300 hover:text-blue-400 transition-colors">
@@ -136,9 +136,7 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <Link to="/login" className="hidden md:inline-block text-gray-300 hover:text-white text-sm font-bold px-3">
-                Login
-              </Link>
+              <Link to="/login" className="hidden md:inline-block text-gray-300 hover:text-white text-sm font-bold px-3">Login</Link>
             )}
 
             <div className="md:hidden ml-4">
@@ -150,42 +148,42 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE UI: Original Drawer Design */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-xl md:hidden z-40"
-            onClick={closeAllMenus}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.3 }}
-              className="absolute top-24 left-4 right-4 bg-gray-900/80 border border-gray-700 rounded-2xl p-6"
-              onClick={e => e.stopPropagation()}
-            >
-              <h2 className="text-white font-bold text-xl mb-4">Menu</h2>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/80 backdrop-blur-xl md:hidden z-40" onClick={closeAllMenus}>
+            <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -50 }} className="absolute top-24 left-4 right-4 bg-gray-900/80 border border-gray-700 rounded-2xl p-6" onClick={e => e.stopPropagation()}>
                <div className="flex flex-col space-y-2">
                  <Link to="/" onClick={closeAllMenus} className="text-gray-300 hover:bg-gray-800 p-3 rounded-lg transition-colors">Home</Link>
                  
-                 <div className="border-t border-b border-gray-700">
-                    <button onClick={() => toggleMobileDropdown('services')} className="w-full flex justify-between items-center p-3 text-gray-300 hover:bg-gray-800 rounded-lg transition-colors">
+                 <div className="border-t border-gray-700">
+                    <button onClick={() => toggleMobileDropdown('services')} className="w-full flex justify-between items-center p-3 text-gray-300">
                       <span>Services</span>
-                      <ChevronDown size={20} className={`transition-transform ${mobileDropdown === 'services' ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={20} className={mobileDropdown === 'services' ? 'rotate-180' : ''} />
                     </button>
                     {mobileDropdown === 'services' && (
                       <div className="pl-4 pb-2 mt-1 space-y-1">
-                        {serviceItems.map(item => <Link key={item.name} to={item.href} onClick={closeAllMenus} className="flex items-center gap-3 py-2 text-gray-400 hover:text-white"><item.icon size={18} />{item.name}</Link>)}
+                        {serviceItems.map(item => <Link key={item.name} to={item.href} onClick={closeAllMenus} className="flex items-center gap-3 py-2 text-gray-400"><item.icon size={18} />{item.name}</Link>)}
+                      </div>
+                    )}
+                 </div>
+
+                 <div className="border-t border-b border-gray-700">
+                    <button onClick={() => toggleMobileDropdown('more')} className="w-full flex justify-between items-center p-3 text-gray-300">
+                      <span>More</span>
+                      <ChevronDown size={20} className={mobileDropdown === 'more' ? 'rotate-180' : ''} />
+                    </button>
+                    {mobileDropdown === 'more' && (
+                      <div className="pl-4 pb-2 mt-1 space-y-1">
+                        {moreItems.map(item => <Link key={item.name} to={item.href} onClick={closeAllMenus} className="flex items-center gap-3 py-2 text-gray-400"><item.icon size={18} />{item.name}</Link>)}
                       </div>
                     )}
                  </div>
 
                  {user ? (
-                   <button onClick={handleLogout} className="text-red-400 p-3 text-left w-full">Logout</button>
+                   <button onClick={handleLogout} className="text-red-400 p-3 text-left w-full flex items-center gap-2 font-semibold"><LogOut size={18} /> Logout</button>
                  ) : (
                    <Link to="/login" onClick={closeAllMenus} className="text-gray-300 p-3">Login</Link>
                  )}
-
                  <a href="https://panel.legacycloud.qzz.io/" target="_blank" rel="noopener noreferrer" onClick={closeAllMenus} className="text-center bg-blue-600 text-white p-3 rounded-lg font-semibold mt-4">Dashboard</a>
                </div>
             </motion.div>
@@ -204,4 +202,4 @@ const DropdownItem = ({ icon: Icon, name, href }: { icon: React.ElementType, nam
 );
 
 export default Navbar;
-                          
+    
