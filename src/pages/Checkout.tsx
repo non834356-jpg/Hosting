@@ -18,8 +18,8 @@ const Checkout = () => {
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
       // Agar login nahi hai toh 2 second baad bhej do
-      toast.error("Pehle Login karein!", { position: "bottom-center" });
-      setTimeout(() => navigate('/auth'), 2000);
+      toast.error("please login first!", { position: "bottom-center" });
+      setTimeout(() => navigate('/login'), 2000);
     } else {
       setUserData(JSON.parse(savedUser));
     }
