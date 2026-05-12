@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from './firebase'; // Aapki banayi hui firebase file
+// CORRECT PATH: Ek level up, phir components folder ke andar
+import { auth } from '../components/firebase'; 
 import { 
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword, 
@@ -14,7 +15,6 @@ const Auth = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    // Form states
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -25,31 +25,22 @@ const Auth = () => {
         
         try {
             if (isLogin) {
-                // Firebase Login
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                
                 localStorage.setItem('user', JSON.stringify({ 
-                    name: user.displayName || 'User', 
-                    email: user.email 
+                    name: userCredential.user.displayName || 'User', 
+                    email: userCredential.user.email 
                 }));
             } else {
-                // Firebase Signup
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                // Name update karna profile mein
                 await updateProfile(userCredential.user, { displayName: name });
-                
                 localStorage.setItem('user', JSON.stringify({ name, email }));
             }
 
-            // --- REFRESH FIX ---
-            // LocalStorage change event trigger karna taaki Navbar/Header turant update ho jaye
+            // Refresh Fix: Navbar ko update karne ke liye event trigger karein
             window.dispatchEvent(new Event("storage")); 
-            
-            // Navigate se pehle alert hata kar smooth redirection
             navigate('/'); 
         } catch (error: any) {
-            alert(error.message); // Yahan error handle hoga
+            alert(error.message);
         } finally {
             setLoading(false);
         }
@@ -68,7 +59,7 @@ const Auth = () => {
                         <span className="text-blue-500">Account</span>
                     </h2>
                     <p className="text-gray-400 text-sm mt-2 font-medium">
-                        {isLogin ? 'Manage your servers and orders' : 'Join TitanHosting community today'}
+                        Manage your TitanHosting account
                     </p>
                 </div>
 
@@ -79,7 +70,7 @@ const Auth = () => {
                             <input 
                                 type="text" 
                                 placeholder="Full Name"
-                                className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white focus:border-blue-500 outline-none transition-all"
+                                className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white outline-none focus:border-blue-500 transition-all"
                                 required
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
@@ -92,7 +83,7 @@ const Auth = () => {
                         <input 
                             type="email" 
                             placeholder="Email Address"
-                            className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white focus:border-blue-500 outline-none transition-all"
+                            className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white outline-none focus:border-blue-500 transition-all"
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -104,7 +95,7 @@ const Auth = () => {
                         <input 
                             type="password" 
                             placeholder="Password"
-                            className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white focus:border-blue-500 outline-none transition-all"
+                            className="w-full bg-black/40 border border-gray-700 rounded-xl py-3 px-10 text-white outline-none focus:border-blue-500 transition-all"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -113,7 +104,7 @@ const Auth = () => {
 
                     <button 
                         disabled={loading}
-                        className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-600/20 active:scale-95 mt-2"
+                        className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-gray-700 text-white font-black py-3 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-blue-600/20"
                     >
                         {loading ? 'Processing...' : (isLogin ? 'Login Now' : 'Create Account')} 
                         {!loading && <ArrowRight size={18} />}
