@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CreditCard, ShieldCheck, Zap, ArrowLeft, Shield, User, Mail } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ShieldCheck, Zap, ArrowLeft, Shield, User, Mail } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+// Firebase imports
+import { db } from './firebase'; 
+import { collection, addDoc } from 'firebase/firestore';
 
 const Checkout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any>(null);
 
-  // Pricing page data fetch
   const planName = location.state?.planName || "Select a Plan";
   const planPrice = location.state?.price || 0;
 
-  // --- REDIRECT & LOGIN CHECK ---
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
@@ -24,9 +25,8 @@ const Checkout = () => {
     }
   }, [navigate]);
 
-  // --- DISCORD NOTIFICATION LOGIC ---
   const sendDiscordNotification = (details: any) => {
-    const webhookURL = "https://discord.com/api/webhooks/1503653673589280778/1WVvfddlaX4_5ZyWMk9GIrYL8BM-wCAt-Fzu-DUWY-Im35Nlby4a2i4qaf-bUekenxfU"; //WEBHOOK URL
+    const webhookURL = "https://discord.com/api/webhooks/1503653673589280778/1WVvfddlaX4_5ZyWMk9GIrYL8BM-wCAt-Fzu-DUWY-Im35Nlby4a2i4qaf-bUekenxfU"; 
 
     const message = {
       username: "TitanHosting Orders",
@@ -54,7 +54,6 @@ const Checkout = () => {
     });
   };
 
-  // --- RAZORPAY PAYMENT ---
   const handlePayment = () => {
     if (planPrice === 0) {
       toast.error("Please select a plan!");
@@ -64,7 +63,7 @@ const Checkout = () => {
     const loadToast = toast.loading("Secure connection is being created...", { position: "top-center" });
 
     const options = {
-      key: "rzp_test_SoMB2yauQypoLR", //YOUR RAZORPAY API KEY
+      key: "rzp_test_SoMB2yauQypoLR", //RAZORPAY API KEY
       amount: planPrice * 100,
       currency: "INR",
       name: "TITAN HOSTING",
@@ -79,23 +78,32 @@ const Checkout = () => {
           email: userData?.email,
           plan: planName,
           amount: planPrice,
+          timestamp: new Date().toISOString(),
+          status: "paid"
         };
 
-        // Send details to Discord
-        sendDiscordNotification(orderDetails);
+        try {
+          // --- DATABASE SAVING LOGIC ---
+          await addDoc(collection(db, "orders"), orderDetails);
+          
+          // Discord notification
+          sendDiscordNotification(orderDetails);
 
-        // Success Toast
-        toast.success(
-          (t) => (
-            <span className="text-center font-medium">
-              Payment Successful! ✅ <br /> 
-              Server details will be sent to <b>{userData?.email}</b> within 15-30 minutes.
-            </span>
-          ),
-          { duration: 6000, position: "top-center" }
-        );
+          toast.success(
+            (t) => (
+              <span className="text-center font-medium">
+                Payment Successful! ✅ <br /> 
+                Server details will be sent to <b>{userData?.email}</b> within 15-30 minutes.
+              </span>
+            ),
+            { duration: 6000, position: "top-center" }
+          );
 
-        setTimeout(() => navigate('/'), 4000); 
+          setTimeout(() => navigate('/'), 4000); 
+        } catch (error) {
+          console.error("Database Error:", error);
+          toast.error("Payment successful, but failed to save in database.");
+        }
       },
       prefill: {
         name: userData?.name,
@@ -115,15 +123,12 @@ const Checkout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pt-24 pb-12 px-4 relative">
+    // bg-transparent added to show background.png from your main layout
+    <div className="min-h-screen bg-transparent text-white pt-24 pb-12 px-4 relative">
       <Toaster position="top-center" reverseOrder={false} />
       
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-blue-600/5 blur-[120px]" />
-      </div>
-
       <div className="max-w-4xl mx-auto relative z-10">
-        <Link to="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-white mb-8 transition-all group">
+        <Link to="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-all group">
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
           <span>Back to Plans</span>
         </Link>
