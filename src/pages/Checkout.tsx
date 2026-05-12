@@ -58,11 +58,11 @@ const Checkout = () => {
   // --- RAZORPAY PAYMENT ---
   const handlePayment = () => {
     if (planPrice === 0) {
-      toast.error("Koi plan select karein!");
+      toast.error("Select a plan!");
       return;
     }
 
-    const loadToast = toast.loading("Secure connection ban raha hai...", { position: "top-center" });
+    const loadToast = toast.loading(, { position: "top-center" });Secure connection is being created....", { position: "top-center" });
 
     const options = {
       key: "rzp_test_SoMB2yauQypoLR", // <--- Apni Razorpay Key dalein
